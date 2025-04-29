@@ -252,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
           _buildRecipeCard(
             'Nut brownie',
             'Is a rich and indulgent dessert...',
-            'https://images.unsplash.com/photo-1589375890993-7b38d11bcd22',
+            'https://glendasfarmhouse.com/wp-content/uploads/2021/12/walnut-brownie-recipe.jpg.webp',
             5,
             '30min',
           ),
