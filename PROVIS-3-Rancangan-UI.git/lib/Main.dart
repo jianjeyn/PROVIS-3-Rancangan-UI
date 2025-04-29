@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'profile/Profile.dart';
+import 'search/Search.dart';
+import 'community/Community.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,37 +29,116 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const HomePage()));
+        break;
+      case 1:
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const Community()));
+        break;
+      case 2:
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const RecipePage()));
+        break;
+      case 3:
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const ProfilePage()));
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                _buildHeader(),
-                const SizedBox(height: 20),
-                _buildCategoryButtons(),
-                const SizedBox(height: 24),
-                _buildTrendingRecipe(),
-                const SizedBox(height: 24),
-                _buildYourRecipes(),
-                const SizedBox(height: 24),
-                _buildRecentlyAdded(),
-                const SizedBox(height: 80), // Space for bottom navigation
-              ],
+      body: Stack(
+        children: [
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  _buildHeader(),
+                  const SizedBox(height: 20),
+                  _buildCategoryButtons(),
+                  const SizedBox(height: 24),
+                  _buildTrendingRecipe(),
+                  const SizedBox(height: 24),
+                  _buildYourRecipes(),
+                  const SizedBox(height: 24),
+                  _buildRecentlyAdded(),
+                  const SizedBox(height: 100), // Space for navigation
+                ],
+              ),
             ),
           ),
-        ),
+          // Custom Bottom Navigation
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                width: 240,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.teal,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(4, (index) {
+                    final icons = [
+                      Icons.home_outlined,
+                      Icons.chat_bubble_outline,
+                      Icons.search,
+                      Icons.person_outline,
+                    ];
+
+                    final isSelected = _selectedIndex == index;
+
+                    return GestureDetector(
+                      onTap: () => _onNavItemTapped(index),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: isSelected
+                            ? const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(color: Colors.white, width: 2),
+                                ),
+                              )
+                            : null,
+                        child: Icon(
+                          icons[index],
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -67,7 +149,7 @@ class HomePage extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Hi Hafsah!',
               style: TextStyle(
                 fontSize: 24,
@@ -84,7 +166,7 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        CircleAvatar(
+        const CircleAvatar(
           backgroundColor: Color(0xFFE0F5F2),
           radius: 20,
           child: Text(
@@ -101,7 +183,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildCategoryButtons() {
     final categories = ['Breakfast', 'Lunch', 'Dinner', 'Vegan', 'D'];
-    
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -112,7 +194,7 @@ class HomePage extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: isSelected ? Color(0xFF2A9D8F) : Colors.white,
+                backgroundColor: isSelected ? const Color(0xFF2A9D8F) : Colors.white,
                 foregroundColor: isSelected ? Colors.white : Colors.black,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
@@ -121,7 +203,7 @@ class HomePage extends StatelessWidget {
                     color: isSelected ? Colors.transparent : Colors.grey.shade300,
                   ),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
               child: Text(category),
             ),
@@ -135,7 +217,7 @@ class HomePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Trending Recipe',
           style: TextStyle(
             fontSize: 18,
@@ -152,7 +234,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.1),
                 spreadRadius: 1,
                 blurRadius: 5,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
           ),
@@ -162,10 +244,7 @@ class HomePage extends StatelessWidget {
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                     child: Image.network(
                       'https://images.unsplash.com/photo-1513104890138-7c749659a591',
                       height: 180,
@@ -173,30 +252,26 @@ class HomePage extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 10,
                     right: 10,
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
                       radius: 16,
-                      child: Icon(
-                        Icons.bookmark_border,
-                        size: 18,
-                        color: Colors.black,
-                      ),
+                      child: Icon(Icons.bookmark_border, size: 18, color: Colors.black),
                     ),
                   ),
                   Positioned(
                     bottom: 10,
                     right: 10,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.access_time, size: 14),
                           SizedBox(width: 4),
                           Text('30 min', style: TextStyle(fontSize: 12)),
@@ -206,24 +281,18 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
+              const Padding(
+                padding: EdgeInsets.all(12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Salami and cheese pizza',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     Text(
                       'Pizza made with a mix of the ingredients...',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
-                      ),
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
                     ),
                     SizedBox(height: 8),
                     Row(
@@ -251,12 +320,9 @@ class HomePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Your Recipes',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
         Row(
@@ -294,7 +360,7 @@ class HomePage extends StatelessWidget {
             color: Colors.grey.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 5,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -304,10 +370,7 @@ class HomePage extends StatelessWidget {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                ),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                 child: Image.network(
                   imageUrl,
                   height: 100,
@@ -315,17 +378,13 @@ class HomePage extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              Positioned(
+              const Positioned(
                 top: 8,
                 right: 8,
                 child: CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 14,
-                  child: Icon(
-                    Icons.bookmark_border,
-                    size: 16,
-                    color: Colors.black,
-                  ),
+                  child: Icon(Icons.bookmark_border, size: 16, color: Colors.black),
                 ),
               ),
             ],
@@ -335,29 +394,17 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                ),
-                SizedBox(height: 4),
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(Icons.star, color: Colors.amber, size: 14),
-                    SizedBox(width: 2),
-                    Text(
-                      rating.toString(),
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    Spacer(),
-                    Icon(Icons.access_time, size: 12, color: Colors.grey),
-                    SizedBox(width: 2),
-                    Text(
-                      time,
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
+                    const Icon(Icons.star, color: Colors.amber, size: 14),
+                    const SizedBox(width: 2),
+                    Text(rating.toString(), style: const TextStyle(fontSize: 12)),
+                    const Spacer(),
+                    const Icon(Icons.access_time, size: 12, color: Colors.grey),
+                    const SizedBox(width: 2),
+                    Text(time, style: const TextStyle(fontSize: 12, color: Colors.grey)),
                   ],
                 ),
               ],
@@ -372,150 +419,45 @@ class HomePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Recently Added',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        const Text('Recently Added', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(
-              child: Container(
-                height: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        'https://images.unsplash.com/photo-1565299507177-b0ac66763828',
-                        height: 120,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 8,
-                      right: 8,
-                      child: CircleAvatar(
-                        backgroundColor: Color(0xFF2A9D8F),
-                        radius: 14,
-                        child: Icon(
-                          Icons.bookmark_border,
-                          size: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            Expanded(child: _buildRecentlyItem('https://images.unsplash.com/photo-1565299507177-b0ac66763828')),
             const SizedBox(width: 12),
-            Expanded(
-              child: Container(
-                height: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        'https://images.unsplash.com/photo-1576506295286-5cda18df43e7',
-                        height: 120,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 8,
-                      right: 8,
-                      child: CircleAvatar(
-                        backgroundColor: Color(0xFF2A9D8F),
-                        radius: 14,
-                        child: Icon(
-                          Icons.bookmark_border,
-                          size: 16,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            Expanded(child: _buildRecentlyItem('https://images.unsplash.com/photo-1576506295286-5cda18df43e7')),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildBottomNavigationBar() {
+  Widget _buildRecentlyItem(String imageUrl) {
     return Container(
-      height: 70,
+      height: 120,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
         color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
         boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: Offset(0, -1),
+          BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 2)),
+        ],
+      ),
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(imageUrl, height: 120, width: double.infinity, fit: BoxFit.cover),
+          ),
+          const Positioned(
+            bottom: 8,
+            right: 8,
+            child: CircleAvatar(
+              backgroundColor: Color(0xFF2A9D8F),
+              radius: 14,
+              child: Icon(Icons.bookmark_border, size: 16, color: Colors.white),
+            ),
           ),
         ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(Icons.home, true),
-          _buildNavItem(Icons.chat_bubble_outline, false),
-          _buildNavItem(Icons.search, false),
-          _buildNavItem(Icons.person_outline, false),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(IconData icon, bool isSelected) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isSelected ? Color(0xFF2A9D8F) : Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Icon(
-        icon,
-        color: isSelected ? Colors.white : Colors.grey,
-        size: 24,
       ),
     );
   }
