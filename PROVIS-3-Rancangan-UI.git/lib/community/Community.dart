@@ -209,10 +209,17 @@ class HomePage extends StatelessWidget {
               Positioned(
                 top: 10,
                 right: 10,
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 16,
-                  child: Icon(Icons.bookmark_border, size: 18, color: Colors.black),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: const BoxDecoration(
+                    color: Colors.teal,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.favorite_border,
+                    color: Colors.white,
+                    size: 18,
+                  ),
                 ),
               ),
               Positioned(
