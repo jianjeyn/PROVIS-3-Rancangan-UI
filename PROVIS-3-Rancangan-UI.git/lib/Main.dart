@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'profile/Profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,37 +29,36 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  _buildHeader(),
-                  const SizedBox(height: 20),
-                  _buildCategoryButtons(),
-                  const SizedBox(height: 24),
-                  _buildTrendingRecipe(),
-                  const SizedBox(height: 24),
-                  _buildYourRecipes(),
-                  const SizedBox(height: 24),
-                  _buildRecentlyAdded(),
-                  const SizedBox(height: 80), // Space for bottom navigation
-                  // _buildBottomNavigationBar(context),
-                ],
-              ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                _buildHeader(),
+                const SizedBox(height: 20),
+                _buildCategoryButtons(),
+                const SizedBox(height: 24),
+                _buildTrendingRecipe(),
+                const SizedBox(height: 24),
+                _buildYourRecipes(),
+                const SizedBox(height: 24),
+                _buildRecentlyAdded(),
+                const SizedBox(height: 80), // Space for bottom navigation
+              ],
             ),
           ),
         ),
-        bottomNavigationBar: _buildBottomNavigationBar(context),
-      );
-    }
+      ),
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
 
   Widget _buildHeader() {
     return Row(
@@ -477,7 +475,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavigationBar(BuildContext context) {
+  Widget _buildBottomNavigationBar() {
     return Container(
       height: 70,
       decoration: BoxDecoration(
@@ -498,38 +496,26 @@ class HomePage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem(context, Icons.home, true),
-          _buildNavItem(context, Icons.chat_bubble_outline, false),
-          _buildNavItem(context, Icons.search, false),
-          _buildNavItem(context, Icons.person_outline, false),
+          _buildNavItem(Icons.home, true),
+          _buildNavItem(Icons.chat_bubble_outline, false),
+          _buildNavItem(Icons.search, false),
+          _buildNavItem(Icons.person_outline, false),
         ],
       ),
     );
   }
 
-  Widget _buildNavItem(BuildContext context, IconData icon, bool isSelected) {
-    return GestureDetector(
-      onTap: () {
-        if (icon == Icons.person_outline) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProfilePage()),
-          );
-        } else {
-          // Aksi lain jika diperlukan untuk ikon lainnya
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: isSelected ? Color(0xFF2A9D8F) : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Icon(
-          icon,
-          color: isSelected ? Colors.white : Colors.grey,
-          size: 24,
-        ),
+  Widget _buildNavItem(IconData icon, bool isSelected) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isSelected ? Color(0xFF2A9D8F) : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Icon(
+        icon,
+        color: isSelected ? Colors.white : Colors.grey,
+        size: 24,
       ),
     );
   }
