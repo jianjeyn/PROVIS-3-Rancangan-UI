@@ -252,13 +252,20 @@ class _HomePageState extends State<HomePage> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const Positioned(
+                  Positioned(
                     top: 10,
                     right: 10,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 16,
-                      child: Icon(Icons.bookmark_border, size: 18, color: Colors.black),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: const BoxDecoration(
+                        color: Colors.teal,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -378,13 +385,20 @@ class _HomePageState extends State<HomePage> {
                   fit: BoxFit.cover,
                 ),
               ),
-              const Positioned(
-                top: 8,
-                right: 8,
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 14,
-                  child: Icon(Icons.bookmark_border, size: 16, color: Colors.black),
+              Positioned(
+                top: 10,
+                right: 10,
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: const BoxDecoration(
+                    color: Colors.teal,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.favorite_border,
+                    color: Colors.white,
+                    size: 18,
+                  ),
                 ),
               ),
             ],
@@ -448,15 +462,22 @@ class _HomePageState extends State<HomePage> {
             borderRadius: BorderRadius.circular(12),
             child: Image.network(imageUrl, height: 120, width: double.infinity, fit: BoxFit.cover),
           ),
-          const Positioned(
-            bottom: 8,
-            right: 8,
-            child: CircleAvatar(
-              backgroundColor: Color(0xFF2A9D8F),
-              radius: 14,
-              child: Icon(Icons.bookmark_border, size: 16, color: Colors.white),
-            ),
-          ),
+          Positioned(
+                top: 10,
+                right: 10,
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: const BoxDecoration(
+                    color: Colors.teal,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.favorite_border,
+                    color: Colors.white,
+                    size: 18,
+                  ),
+                ),
+              ),
         ],
       ),
     );
