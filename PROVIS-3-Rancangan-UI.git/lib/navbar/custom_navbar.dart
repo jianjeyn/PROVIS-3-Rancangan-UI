@@ -1,5 +1,3 @@
-// lib/widgets/custom_navbar.dart
-
 import 'package:flutter/material.dart';
 
 class CustomNavbar extends StatelessWidget {
