@@ -31,7 +31,7 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
     {
       'title': 'Nut brownie',
       'description': 'Is a rich and indulgent dessert...',
-      'image': 'https://images.unsplash.com/photo-1589375890993-7b43c54b1427',
+      'image': 'https://www.shugarysweets.com/wp-content/uploads/2021/02/walnut-brownies-thick.jpg',
       'rating': 4,
       'time': '30min',
       'isFavorite': false,
@@ -155,7 +155,7 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
                   ),
                 ),
                 const Text(
-                  '@hafsahcoonik',
+                  '@hafsahcantik',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'profile/ProfileRecipe.dart';
+import 'profile/Profile.dart';
 import 'search/Search.dart';
 import 'community/Community.dart';
 import 'profile/Following.dart';
