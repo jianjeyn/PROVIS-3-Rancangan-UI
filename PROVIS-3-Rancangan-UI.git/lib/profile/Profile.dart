@@ -1,14 +1,86 @@
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfileRecipePage extends StatefulWidget {
+  const ProfileRecipePage({Key? key}) : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProfileRecipePage> createState() => _ProfileRecipePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin {
+class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  // Sample data for recipes
+  final List<Map<String, dynamic>> recipes = [
+    {
+      'title': 'Béchamel Pasta',
+      'description': 'A creamy and indulgent...',
+      'image': 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9',
+      'rating': 4,
+      'time': '30min',
+      'isFavorite': false,
+    },
+    {
+      'title': 'Grilled Skewers',
+      'description': 'Succulent morsels...',
+      'image': 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1',
+      'rating': 4,
+      'time': '30min',
+      'isFavorite': true,
+    },
+    {
+      'title': 'Nut brownie',
+      'description': 'Is a rich and indulgent dessert...',
+      'image': 'https://www.shugarysweets.com/wp-content/uploads/2021/02/walnut-brownies-thick.jpg',
+      'rating': 4,
+      'time': '30min',
+      'isFavorite': false,
+    },
+    {
+      'title': 'Oatmeal pancakes',
+      'description': 'These nutritious delights offer a satisfying...',
+      'image': 'https://images.unsplash.com/photo-1506084868230-bb9d95c24759',
+      'rating': 4,
+      'time': '30min',
+      'isFavorite': true,
+    },
+  ];
+
+  // Sample data for favorite recipes
+  final List<Map<String, dynamic>> favorites = [
+    {
+      'title': 'French Toast',
+      'description': 'Delicious slices of bread...',
+      'image': 'https://images.unsplash.com/photo-1484723091739-30a097e8f929',
+      'rating': 5,
+      'time': '20min',
+      'isFavorite': true,
+    },
+    {
+      'title': 'Fruit Crepes',
+      'description': 'Fruity-filled chocolate crepes',
+      'image': 'https://images.unsplash.com/photo-1519676867240-f03562e64548',
+      'rating': 4,
+      'time': '20min',
+      'isFavorite': true,
+    },
+    {
+      'title': 'Baked Chicken',
+      'description': 'Delicious and juicy wings',
+      'image': 'https://images.unsplash.com/photo-1527477396000-e27163b481c2',
+      'rating': 5,
+      'time': '30min',
+      'isFavorite': true,
+    },
+    {
+      'title': 'Quinoa Salad',
+      'description': 'Nutrient-rich quinoa tossed in salad',
+      'image': 'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af',
+      'rating': 4,
+      'time': '30min',
+      'isFavorite': true,
+    },
+  ];
 
   @override
   void initState() {
@@ -27,16 +99,22 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildProfileHeader(),
-              _buildProfileActions(),
-              _buildProfileStats(),
-              _buildTabBar(),
-              _buildRecipeGrid(),
-            ],
-          ),
+        child: Column(
+          children: [
+            _buildProfileHeader(),
+            _buildProfileActions(),
+            _buildProfileStats(),
+            _buildTabBar(),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildRecipeGrid(), // Recipe tab content
+                  _buildFavoritesGrid(), // Favorites tab content
+                ],
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: _buildBottomNavigationBar(),
@@ -47,12 +125,20 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundImage: NetworkImage(
-              'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: const DecorationImage(
+                image: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330'),
+                fit: BoxFit.cover,
+              ),
+              border: Border.all(
+                color: const Color(0xFF2A9D8F),
+                width: 2,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -60,28 +146,30 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Hafsah Hamidah',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF2A9D8F),
                   ),
                 ),
-                Text(
-                  '@hafsahcoonik',
+                const Text(
+                  '@hafsahcantik',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey[600],
+                    color: Colors.grey,
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
+                const Text(
                   'My passion is cooking and sharing new recipes with the world.',
                   style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[800],
+                    fontSize: 12,
+                    color: Colors.black87,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -89,22 +177,24 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
           Column(
             children: [
               CircleAvatar(
+                backgroundColor: const Color(0xFFAFDED9),
                 radius: 16,
-                backgroundColor: Color(0xFFE0F5F2),
-                child: Icon(
-                  Icons.add,
-                  size: 16,
-                  color: Color(0xFF2A9D8F),
+                child: IconButton(
+                  icon: const Icon(Icons.add, size: 16, color: Color(0xFF2A9D8F)),
+                  onPressed: () {},
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                 ),
               ),
               const SizedBox(height: 8),
               CircleAvatar(
+                backgroundColor: const Color(0xFFAFDED9),
                 radius: 16,
-                backgroundColor: Color(0xFFE0F5F2),
-                child: Icon(
-                  Icons.menu,
-                  size: 16,
-                  color: Color(0xFF2A9D8F),
+                child: IconButton(
+                  icon: const Icon(Icons.menu, size: 16, color: Color(0xFF2A9D8F)),
+                  onPressed: () {},
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                 ),
               ),
             ],
@@ -123,31 +213,41 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFAFDED9),
-                foregroundColor: Color(0xFF2A9D8F),
+                backgroundColor: const Color(0xFFAFDED9),
+                foregroundColor: const Color(0xFF2A9D8F),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(25),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              child: Text('Edit Profile'),
+              child: const Text(
+                'Edit Profile',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFAFDED9),
-                foregroundColor: Color(0xFF2A9D8F),
+                backgroundColor: const Color(0xFFAFDED9),
+                foregroundColor: const Color(0xFF2A9D8F),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(25),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 12),
+                padding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              child: Text('Share Profile'),
+              child: const Text(
+                'Share Profile',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ],
@@ -156,16 +256,41 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
   }
 
   Widget _buildProfileStats() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildStatItem('60', 'recipes'),
-          _buildDivider(),
-          _buildStatItem('120', 'Following'),
-          _buildDivider(),
-          _buildStatItem('250', 'Followers'),
+          Container(
+            height: 30,
+            width: 1,
+            color: Colors.grey.shade300,
+          ),
+          InkWell(
+            onTap: () {
+              // Navigate to Following page
+              Navigator.pushNamed(context, '/following');
+            },
+            child: _buildStatItem('120', 'Following'),
+          ),
+          Container(
+            height: 30,
+            width: 1,
+            color: Colors.grey.shade300,
+          ),
+          InkWell(
+            onTap: () {
+              // Navigate to Followers page
+              Navigator.pushNamed(context, '/followers');
+            },
+            child: _buildStatItem('250', 'Followers'),
+          ),
         ],
       ),
     );
@@ -176,47 +301,39 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
       children: [
         Text(
           count,
-          style: TextStyle(
-            fontSize: 18,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
         ),
         Text(
           label,
           style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey[600],
+            color: Colors.grey.shade600,
+            fontSize: 12,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildDivider() {
-    return Container(
-      height: 30,
-      width: 1,
-      color: Colors.grey[300],
-    );
-  }
-
   Widget _buildTabBar() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.grey[300]!,
-            width: 1,
+            color: Colors.grey,
+            width: 0.5,
           ),
         ),
       ),
       child: TabBar(
         controller: _tabController,
-        labelColor: Color(0xFF2A9D8F),
-        unselectedLabelColor: Colors.grey[600],
-        indicatorColor: Color(0xFF2A9D8F),
+        labelColor: const Color(0xFF2A9D8F),
+        unselectedLabelColor: Colors.grey,
+        indicatorColor: const Color(0xFF2A9D8F),
         indicatorWeight: 3,
-        tabs: [
+        tabs: const [
           Tab(text: 'Recipe'),
           Tab(text: 'Favorites'),
         ],
@@ -225,60 +342,51 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
   }
 
   Widget _buildRecipeGrid() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: GridView.count(
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
         childAspectRatio: 0.75,
-        children: [
-          _buildRecipeCard(
-            'Béchamel Pasta',
-            'A creamy and indulgent',
-            'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9',
-            4,
-            '30min',
-          ),
-          _buildRecipeCard(
-            'Grilled Skewers',
-            'Succulent morsels',
-            'https://images.unsplash.com/photo-1555939594-58d7cb561ad1',
-            4,
-            '30min',
-          ),
-          _buildRecipeCard(
-            'Nut brownie',
-            'Is a rich and indulgent dessert...',
-            'https://glendasfarmhouse.com/wp-content/uploads/2021/12/walnut-brownie-recipe.jpg.webp',
-            5,
-            '30min',
-          ),
-          _buildRecipeCard(
-            'Oatmeal pancakes',
-            'These nutritious delights offer a satisfying...',
-            'https://images.unsplash.com/photo-1565299543923-37dd37887442',
-            5,
-            '30min',
-          ),
-        ],
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
       ),
+      itemCount: recipes.length,
+      itemBuilder: (context, index) {
+        final recipe = recipes[index];
+        return _buildRecipeCard(recipe);
+      },
     );
   }
 
-  Widget _buildRecipeCard(String title, String description, String imageUrl, int rating, String time) {
+  Widget _buildFavoritesGrid() {
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.75,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+      ),
+      itemCount: favorites.length,
+      itemBuilder: (context, index) {
+        final recipe = favorites[index];
+        return _buildRecipeCard(recipe);
+      },
+    );
+  }
+
+  Widget _buildRecipeCard(Map<String, dynamic> recipe) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),
             spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(0, 2),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
           ),
         ],
       ),
@@ -288,12 +396,12 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
           Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),
                 ),
                 child: Image.network(
-                  imageUrl,
+                  recipe['image'],
                   height: 120,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -302,13 +410,27 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
               Positioned(
                 top: 8,
                 right: 8,
-                child: CircleAvatar(
-                  backgroundColor: Color(0xFF2A9D8F),
-                  radius: 14,
-                  child: Icon(
-                    Icons.favorite_border,
-                    size: 16,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
                     color: Colors.white,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      recipe['isFavorite'] ? Icons.favorite : Icons.favorite_border,
+                      color: recipe['isFavorite'] ? Colors.red : Colors.grey,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        recipe['isFavorite'] = !recipe['isFavorite'];
+                      });
+                    },
+                    constraints: const BoxConstraints(
+                      minWidth: 30,
+                      minHeight: 30,
+                    ),
+                    padding: EdgeInsets.zero,
                   ),
                 ),
               ),
@@ -320,47 +442,62 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
-                  style: TextStyle(
+                  recipe['title'],
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
+                const SizedBox(height: 4),
                 Text(
-                  description,
+                  recipe['description'],
                   style: TextStyle(
+                    color: Colors.grey.shade600,
                     fontSize: 12,
-                    color: Colors.grey[600],
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      children: List.generate(
-                        5,
-                        (index) => Icon(
-                          index < rating ? Icons.star : Icons.star_border,
-                          color: Colors.amber,
+                      children: [
+                        Text(
+                          '${recipe['rating']}',
+                          style: const TextStyle(
+                            color: Color(0xFF2A9D8F),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        const Icon(
+                          Icons.star,
+                          color: Color(0xFF2A9D8F),
                           size: 14,
                         ),
-                      ),
+                      ],
                     ),
-                    Spacer(),
-                    Icon(
-                      Icons.access_time,
-                      size: 12,
-                      color: Colors.grey,
-                    ),
-                    SizedBox(width: 2),
-                    Text(
-                      time,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.access_time,
+                          color: Colors.grey,
+                          size: 14,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          recipe['time'],
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -375,7 +512,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
   Widget _buildBottomNavigationBar() {
     return Container(
       height: 70,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color(0xFF2A9D8F),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -385,20 +522,12 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem(Icons.home_outlined, false),
-          _buildNavItem(Icons.chat_bubble_outline, false),
-          _buildNavItem(Icons.search, false),
-          _buildNavItem(Icons.person, true),
+          const Icon(Icons.home_outlined, color: Colors.white),
+          const Icon(Icons.chat_bubble_outline, color: Colors.white),
+          const Icon(Icons.search, color: Colors.white),
+          const Icon(Icons.person, color: Colors.white),
         ],
       ),
-    );
-  }
-
-  Widget _buildNavItem(IconData icon, bool isSelected) {
-    return Icon(
-      icon,
-      color: isSelected ? Colors.white : Colors.white.withOpacity(0.7),
-      size: 24,
     );
   }
 }

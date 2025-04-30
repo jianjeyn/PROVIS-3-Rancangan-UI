@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'profile/Profile.dart';
 import 'search/Search.dart';
 import 'community/Community.dart';
+import 'profile/Following.dart';
+import 'profile/Followers.dart';
 
 void main() {
   runApp(const MyApp());
@@ -59,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 3:
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ProfilePage()));
+            context, MaterialPageRoute(builder: (_) => const ProfileRecipePage()));
         break;
     }
   }
