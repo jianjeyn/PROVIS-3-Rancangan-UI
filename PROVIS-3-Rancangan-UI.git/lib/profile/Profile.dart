@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import '../Main.dart';
+import '../navbar/custom_navbar.dart';
+import '../community/community.dart';
+import '../myresep/EditRecipe.dart';
+import '../search/Search.dart';
+import 'Following.dart' show FollowingPage;
+import 'Followers.dart' show FollowersPage;
 
 class ProfileRecipePage extends StatefulWidget {
   const ProfileRecipePage({Key? key}) : super(key: key);
@@ -9,6 +16,7 @@ class ProfileRecipePage extends StatefulWidget {
 
 class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  int _selectedIndex = 3;
 
   // Sample data for recipes
   final List<Map<String, dynamic>> recipes = [
@@ -82,6 +90,38 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
     },
   ];
 
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const Community()),
+        );
+        break;
+      case 2:
+        // Navigasi ke halaman resep, pastikan kelas RecipePage telah didefinisikan
+        // atau diganti dengan kelas yang sesuai di proyek Anda
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const EditRecipePage()),
+        );
+        break;
+      case 3:
+        // Tetap di halaman profil
+        break;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -98,26 +138,36 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildProfileHeader(),
-            _buildProfileActions(),
-            _buildProfileStats(),
-            _buildTabBar(),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  _buildRecipeGrid(), // Recipe tab content
-                  _buildFavoritesGrid(), // Favorites tab content
-                ],
-              ),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              children: [
+                _buildProfileHeader(),
+                _buildProfileActions(),
+                _buildProfileStats(),
+                _buildTabBar(),
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _buildRecipeGrid(), // Recipe tab content
+                      _buildFavoritesGrid(), // Favorites tab content
+                    ],
+                  ),
+                ),
+                // Add some bottom padding to make room for the navbar
+                const SizedBox(height: 80),
+              ],
             ),
-          ],
-        ),
+          ),
+          // Add the CustomNavbar here
+          CustomNavbar(
+            selectedIndex: _selectedIndex,
+            onItemTapped: _onNavItemTapped,
+          ),
+        ],
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -181,7 +231,15 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
                 radius: 16,
                 child: IconButton(
                   icon: const Icon(Icons.add, size: 16, color: Color(0xFF2A9D8F)),
-                  onPressed: () {},
+                  onPressed: () {
+                    // Navigate to RecipeViewPage when the + button is pressed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditRecipePage(),
+                      ),
+                    );
+                  },
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                 ),
@@ -274,8 +332,11 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
           ),
           InkWell(
             onTap: () {
-              // Navigate to Following page
-              Navigator.pushNamed(context, '/following');
+              // Navigate to Following page using MaterialPageRoute
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FollowingPage()),
+              );
             },
             child: _buildStatItem('120', 'Following'),
           ),
@@ -286,8 +347,11 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
           ),
           InkWell(
             onTap: () {
-              // Navigate to Followers page
-              Navigator.pushNamed(context, '/followers');
+              // Navigate to Followers page using MaterialPageRoute
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FollowersPage()),
+              );
             },
             child: _buildStatItem('250', 'Followers'),
           ),
@@ -508,26 +572,6 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
       ),
     );
   }
-
-  Widget _buildBottomNavigationBar() {
-    return Container(
-      height: 70,
-      decoration: const BoxDecoration(
-        color: Color(0xFF2A9D8F),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const Icon(Icons.home_outlined, color: Colors.white),
-          const Icon(Icons.chat_bubble_outline, color: Colors.white),
-          const Icon(Icons.search, color: Colors.white),
-          const Icon(Icons.person, color: Colors.white),
-        ],
-      ),
-    );
-  }
 }
+
+// RecipePage sudah didefinisikan di tempat lain dalam proyek

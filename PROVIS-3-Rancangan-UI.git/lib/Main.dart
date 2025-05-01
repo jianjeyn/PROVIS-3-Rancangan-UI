@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCategoryButtons() {
-    final categories = ['Breakfast', 'Lunch', 'Dinner', 'Vegan', 'D'];
+    final categories = ['Breakfast', 'Lunch', 'Dinner', 'Vegan', 'Main Course'];
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -348,7 +348,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: _buildRecipeCard(
                 'Tiramisu',
-                'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9',
+                'https://static01.nyt.com/images/2017/04/05/dining/05COOKING-TIRAMISU1/05COOKING-TIRAMISU1-threeByTwoMediumAt2X-v2.jpg?quality=75&auto=webp',
                 '30 min',
                 5.0,
               ),

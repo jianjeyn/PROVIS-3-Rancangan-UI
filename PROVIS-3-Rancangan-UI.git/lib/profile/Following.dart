@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import '../Main.dart';
+import '../navbar/custom_navbar.dart';
+import '../community/community.dart';
+import '../myresep/EditRecipe.dart';
+import '../search/Search.dart';
+import 'Followers.dart' show FollowersPage;
+
 
 class FollowingPage extends StatefulWidget {
   const FollowingPage({Key? key}) : super(key: key);
@@ -9,64 +16,108 @@ class FollowingPage extends StatefulWidget {
 
 class _FollowingPageState extends State<FollowingPage> {
   final TextEditingController _searchController = TextEditingController();
+  int _selectedIndex = 3; // Set to profile tab
   
   // Sample data for following users
   final List<Map<String, dynamic>> following = [
     {
-      'username': '@noel_dsp',
+      'username': '@nnoel_dsp',
       'name': 'Manuel Simbolon',
       'image': 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e',
-      'isFollowing': true,
     },
     {
-      'username': '@chef_manz',
+      'username': '@chef_mami',
       'name': 'Emily Wangui',
       'image': 'https://images.unsplash.com/photo-1494790108377-be9c29b29330',
-      'isFollowing': true,
     },
     {
       'username': '@asifavegan',
-      'name': 'Asfa Sababi',
+      'name': 'Asifa Sababi',
       'image': 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80',
-      'isFollowing': true,
     },
     {
       'username': '@yathycookguy',
       'name': 'Yathy',
       'image': 'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
-      'isFollowing': true,
     },
     {
-      'username': '@karikou',
-      'name': 'Kari Raissidou',
+      'username': '@kariacu',
+      'name': 'Karii Riyasiddel',
       'image': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d',
-      'isFollowing': true,
     },
     {
       'username': '@asifavegan',
-      'name': 'Asfa Sabaabi',
+      'name': 'Asifa Sababia',
       'image': 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c',
-      'isFollowing': true,
     },
     {
       'username': '@speedchef',
       'name': 'Speed sisuu',
       'image': 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d',
-      'isFollowing': true,
     },
     {
-      'username': '@flavourswithflavian',
+      'username': '@flavorswithflavian',
       'name': 'Flavian',
       'image': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb',
-      'isFollowing': true,
     },
     {
-      'username': '@rawfood',
+      'username': '@rawfood_',
       'name': 'Raw Food',
       'image': 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce',
-      'isFollowing': true,
+    },
+    {
+      'username': '@veganfood',
+      'name': 'Vegan Food',
+      'image': 'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0',
+    },
+    {
+      'username': '@veganfoodie',
+      'name': 'Vegan Foodie',
+      'image': 'https://images.unsplash.com/photo-1514516879220-2c8f3b1a5e6b',
+    },
+    {
+      'username': '@veganfoodlover',
+      'name': 'Vegan Food Lover',
+      'image': 'https://images.unsplash.com/photo-1514516879220-2c8f3b1a5e6b',
+    },
+    {
+      'username': '@veganfoodblogger',
+      'name': 'Vegan Food Blogger',
+      'image': 'https://images.unsplash.com/photo-1514516879220-2c8f3b1a5e6b',
     },
   ];
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+       switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const Community()),
+        );
+        break;
+      case 2:
+        // Navigasi ke halaman resep, pastikan kelas RecipePage telah didefinisikan
+        // atau diganti dengan kelas yang sesuai di proyek Anda
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const EditRecipePage()),
+        );
+        break;
+      case 3:
+        // Tetap di halaman profil
+        break;
+    }
+  }
 
   @override
   void dispose() {
@@ -78,76 +129,93 @@ class _FollowingPageState extends State<FollowingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          _buildSearchBar(),
-          Expanded(
-            child: _buildFollowingList(),
-          ),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                _buildHeader(context),
+                _buildSearchBar(),
+                Expanded(
+                  child: _buildFollowingList(),
+                ),
+                const SizedBox(height: 80), // Space for navigation bar
+              ],
+            ),
+            // Add the CustomNavbar here
+            CustomNavbar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onNavItemTapped,
+            ),
+          ],
+        ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Color(0xFF2A9D8F)),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
         children: [
-          const Text(
-            '@hafsahcoonik',
-            style: TextStyle(
-              color: Color(0xFF2A9D8F),
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+          IconButton(
+            icon: const Icon(Icons.arrow_back, color: Color(0xFF2A9D8F)),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-          const SizedBox(height: 4),
-          Row(
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color(0xFF2A9D8F),
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-                padding: const EdgeInsets.only(bottom: 4),
-                child: const Text(
-                  '120 Following',
-                  style: TextStyle(
-                    color: Color(0xFF2A9D8F),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
+              const Text(
+                '@hafsahcantik',
+                style: TextStyle(
+                  color: Color(0xFF2A9D8F),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(width: 16),
-              GestureDetector(
-                onTap: () {
-                  // Navigate to followers page
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const FollowersPage()),
-                  );
-                },
-                child: const Text(
-                  '250 Followers',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
+              const SizedBox(height: 4),
+              Row(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color(0xFF2A9D8F),
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: const Text(
+                      '120 Following',
+                      style: TextStyle(
+                        color: Color(0xFF2A9D8F),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 16),
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate to followers page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const FollowersPage()),
+                      );
+                    },
+                    child: const Text(
+                      '250 Followers',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -159,18 +227,22 @@ class _FollowingPageState extends State<FollowingPage> {
   Widget _buildSearchBar() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: 40,
       decoration: BoxDecoration(
-        color: const Color(0xFFAFDED9),
+        color: const Color(0xFF90D4CE),
         borderRadius: BorderRadius.circular(25),
       ),
       child: TextField(
         controller: _searchController,
         decoration: const InputDecoration(
           hintText: 'Search',
-          hintStyle: TextStyle(color: Colors.grey),
-          prefixIcon: Icon(Icons.search, color: Colors.grey),
+          hintStyle: TextStyle(color: Colors.white70),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 12),
+          contentPadding: EdgeInsets.only(bottom: 12),
+        ),
+        style: const TextStyle(
+          color: Colors.white,
         ),
       ),
     );
@@ -179,7 +251,7 @@ class _FollowingPageState extends State<FollowingPage> {
   Widget _buildFollowingList() {
     return ListView.builder(
       itemCount: following.length,
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.all(0),
       itemBuilder: (context, index) {
         final user = following[index];
         return _buildFollowingItem(user);
@@ -189,14 +261,17 @@ class _FollowingPageState extends State<FollowingPage> {
 
   Widget _buildFollowingItem(Map<String, dynamic> user) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Row(
         children: [
+          // Profile Image
           CircleAvatar(
             radius: 24,
             backgroundImage: NetworkImage(user['image']),
           ),
           const SizedBox(width: 12),
+          
+          // Username and Name
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,61 +294,73 @@ class _FollowingPageState extends State<FollowingPage> {
               ],
             ),
           ),
+          
+          // Following Button
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            decoration: BoxDecoration(
-              color: const Color(0xFFAFDED9),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Text(
-              'Following',
-              style: TextStyle(
-                color: Color(0xFF2A9D8F),
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
+            height: 30,
+            margin: const EdgeInsets.only(right: 8),
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF90D4CE),
+                foregroundColor: Colors.white,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                minimumSize: const Size(80, 30),
+              ),
+              child: const Text(
+                'Following',
+                style: TextStyle(fontSize: 12),
               ),
             ),
           ),
+          
+          // More Options Button
           IconButton(
             icon: const Icon(Icons.more_vert, color: Colors.grey),
-            onPressed: () {
-              // Show options menu
-            },
+            onPressed: () {},
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildBottomNavigationBar() {
+  Widget _buildCustomNavBar() {
     return Container(
-      height: 70,
+      padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: const BoxDecoration(
-        color: Color(0xFF2A9D8F),
+        color: Color(0xFF006D77),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Icon(Icons.home_outlined, color: Colors.white),
-          const Icon(Icons.chat_bubble_outline, color: Colors.white),
-          const Icon(Icons.search, color: Colors.white),
-          const Icon(Icons.person_outline, color: Colors.white),
+          IconButton(
+            icon: const Icon(Icons.home_outlined, color: Colors.white),
+            onPressed: () => _onNavItemTapped(0),
+          ),
+          IconButton(
+            icon: const Icon(Icons.chat_bubble_outline, color: Colors.white),
+            onPressed: () => _onNavItemTapped(1),
+          ),
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.white),
+            onPressed: () => _onNavItemTapped(2),
+          ),
+          IconButton(
+            icon: const Icon(Icons.person, color: Colors.white),
+            onPressed: () => _onNavItemTapped(3),
+          ),
         ],
       ),
     );
-  }
-}
-
-// This is just a stub to make the code compile
-class FollowersPage extends StatelessWidget {
-  const FollowersPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
   }
 }
