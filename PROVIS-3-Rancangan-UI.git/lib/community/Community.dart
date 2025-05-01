@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import '../profile/Profile.dart';
+import '../search/Search.dart';
+import '../profile/Following.dart';
+import '../profile/Followers.dart';
+import '../Main.dart';
 
 class Community extends StatelessWidget {
   const Community({Key? key}) : super(key: key);
@@ -17,39 +22,137 @@ class Community extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const HomePage(), // Use HomePage within Community
+      home: const CommunityScreen(), // Use CommunityScreen as the home
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class CommunityScreen extends StatefulWidget {
+  const CommunityScreen({super.key});
+
+  @override
+  _CommunityScreenState createState() => _CommunityScreenState();
+}
+
+class _CommunityScreenState extends State<CommunityScreen> {
+  int _selectedIndex = 0;
+  List<bool> _isFavorited = [];
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const Community()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const RecipePage()),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ProfileRecipePage()),
+        );
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                _buildHeader(context),
-                const SizedBox(height: 20),
-                _buildCategoryButtons(),
-                const SizedBox(height: 24),
-                _buildTrendingRecipeList(),
-                const SizedBox(height: 80), // Space for bottom navigation
-              ],
+      body: Stack(
+        children: [
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    _buildHeader(context),
+                    const SizedBox(height: 20),
+                    _buildCategoryButtons(),
+                    const SizedBox(height: 24),
+                    _buildTrendingRecipeList(),
+                    const SizedBox(height: 80), // Space for bottom navigation
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+          // Custom Bottom Navigation
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                width: 240,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.teal,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(4, (index) {
+                    final icons = [
+                      Icons.home_outlined,
+                      Icons.chat_bubble_outline,
+                      Icons.search,
+                      Icons.person_outline,
+                    ];
+
+                    final isSelected = _selectedIndex == index;
+
+                    return GestureDetector(
+                      onTap: () => _onNavItemTapped(index),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: isSelected && index == 1 // Ensure only bubble chat is underlined
+                            ? const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                              )
+                            : null,
+                        child: Icon(icons[index], color: Colors.white),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = 1; // Set the default selected index to 1 (bubble chat icon)
+    _isFavorited = List<bool>.filled(10, false);
   }
 
   Widget _buildHeader(BuildContext context) {
@@ -83,59 +186,74 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildCategoryButtons() {
-    final categories = ['Vegan', 'Baker', 'Diet'];
+    final categories = ['Vegan', 'Baker', 'Diet', 'Anak Kos', 'Murah Meriah'];
+    String selectedCategory = 'Vegan';
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: categories.map((category) {
-          final isSelected = category == 'Vegan';
-          return Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isSelected ? Color(0xFF2A9D8F) : Colors.white,
-                foregroundColor: isSelected ? Colors.white : Colors.black,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(
-                    color: isSelected ? Colors.transparent : Colors.grey.shade300,
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: categories.map((category) {
+              final isSelected = category == selectedCategory;
+              return Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedCategory = category;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        isSelected ? Color(0xFF2A9D8F) : Colors.white,
+                    foregroundColor: isSelected ? Colors.white : Colors.black,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(
+                        color: isSelected
+                            ? Colors.transparent
+                            : Colors.grey.shade300,
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   ),
+                  child: Text(category),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              ),
-              child: Text(category),
-            ),
-          );
-        }).toList(),
-      ),
+              );
+            }).toList(),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildTrendingRecipeList() {
-    final recipes = List.generate(10, (index) => {
-      'title': 'Salami and cheese pizza',
-      'description': 'Pizza made with a mix of the ingredients...',
-      'image': 'https://images.unsplash.com/photo-1513104890138-7c749659a591',
-      'time': '30 min',
-      'username': '@User$index',
-      'uploadDate': '2 years ago',
-    });
+    final recipes = List.generate(
+      10,
+      (index) => {
+        'title': 'Salami and cheese pizza',
+        'description': 'Pizza made with a mix of the ingredients...',
+        'image': 'https://images.unsplash.com/photo-1513104890138-7c749659a591',
+        'time': '30 min',
+        'username': '@User$index',
+        'uploadDate': '2 years ago',
+      },
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListView.builder(
           itemCount: recipes.length,
-          shrinkWrap: true, 
-          physics: NeverScrollableScrollPhysics(), 
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             final recipe = recipes[index];
             return Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: _buildTrendingRecipeCard(recipe),
+              child: _buildTrendingRecipeCard(recipe, index),
             );
           },
         ),
@@ -143,7 +261,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildTrendingRecipeCard(Map recipe) {
+  Widget _buildTrendingRecipeCard(Map recipe, int index) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -182,10 +300,7 @@ class HomePage extends StatelessWidget {
                     ),
                     Text(
                       recipe['uploadDate'],
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 12,
-                      ),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
                     ),
                   ],
                 ),
@@ -215,11 +330,18 @@ class HomePage extends StatelessWidget {
                     color: Colors.teal,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
-                    size: 18,
-                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isFavorited[index] = !_isFavorited[index];
+                      });
+                    },
+                    child: Icon(
+                      _isFavorited[index] ? Icons.favorite : Icons.favorite_border,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ), 
                 ),
               ),
               Positioned(
@@ -261,10 +383,7 @@ class HomePage extends StatelessWidget {
                 ),
                 Text(
                   recipe['description'],
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
                 ),
                 SizedBox(height: 8),
                 Row(
@@ -287,7 +406,10 @@ class HomePage extends StatelessWidget {
                       children: [
                         Icon(Icons.comment, color: Colors.grey, size: 16),
                         SizedBox(width: 4),
-                        Text('12', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                        Text(
+                          '12',
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
                       ],
                     ),
                   ],
