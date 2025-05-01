@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../community/Community.dart';
+import '../Main.dart';
+import '../profile/Profile.dart';
+import '../search/DetailMenu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +30,36 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ResultPage extends StatelessWidget {
+class ResultPage extends StatefulWidget {
   const ResultPage({super.key});
+
+  @override
+  State<ResultPage> createState() => _ResultPageState();
+}
+
+class _ResultPageState extends State<ResultPage> {
+  int _selectedIndex = 2;
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomePage()));
+        break;
+      case 1:
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const CommunityScreen()));
+        break;
+      case 2:
+        // Stay on ResultPage
+        break;
+      case 3:
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ProfileRecipePage()));
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +70,7 @@ class ResultPage extends StatelessWidget {
           children: [
             Column(
               children: [
-                // Top bar
+                // App Bar
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -71,7 +103,6 @@ class ResultPage extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Align(
@@ -80,8 +111,6 @@ class ResultPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-
-                // Grid of results
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -90,13 +119,16 @@ class ResultPage extends StatelessWidget {
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
                       childAspectRatio: 0.7,
-                      children: const [
+                      children: [
                         FoodCard(
                           imageUrl: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828',
                           title: 'Sunny Bruschetta',
                           description: 'With Cream Cheese',
                           rating: 4,
                           duration: '15min',
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => const DetailMenu()));
+                          },
                         ),
                         FoodCard(
                           imageUrl: 'https://images.unsplash.com/photo-1576506295286-5cda18df43e7',
@@ -104,6 +136,9 @@ class ResultPage extends StatelessWidget {
                           description: 'Earthy, textured, rustic charm',
                           rating: 4,
                           duration: '20min',
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => const DetailMenu()));
+                          },
                         ),
                       ],
                     ),
@@ -120,7 +155,7 @@ class ResultPage extends StatelessWidget {
               right: 0,
               child: Center(
                 child: Container(
-                  width: 240,
+                  width: 280,
                   height: 60,
                   decoration: BoxDecoration(
                     color: Colors.teal,
@@ -129,18 +164,10 @@ class ResultPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Icon(Icons.home_outlined, color: Colors.white),
-                      const Icon(Icons.chat_bubble_outline, color: Colors.white),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.white, width: 2),
-                          ),
-                        ),
-                        child: const Icon(Icons.search, color: Colors.white),
-                      ),
-                      const Icon(Icons.person_outline, color: Colors.white),
+                      _navItem(Icons.home_outlined, 0),
+                      _navItem(Icons.group_outlined, 1),
+                      _navItem(Icons.search, 2, isSelected: true),
+                      _navItem(Icons.person_outline, 3),
                     ],
                   ),
                 ),
@@ -148,6 +175,21 @@ class ResultPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _navItem(IconData icon, int index, {bool isSelected = false}) {
+    return GestureDetector(
+      onTap: () => _onNavItemTapped(index),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: isSelected
+            ? const BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.white, width: 2)),
+              )
+            : null,
+        child: Icon(icon, color: Colors.white),
       ),
     );
   }
@@ -159,6 +201,7 @@ class FoodCard extends StatelessWidget {
   final String description;
   final int rating;
   final String duration;
+  final VoidCallback onTap;
 
   const FoodCard({
     super.key,
@@ -167,50 +210,54 @@ class FoodCard extends StatelessWidget {
     required this.description,
     required this.rating,
     required this.duration,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                child: Image.network(imageUrl, width: double.infinity, height: 100, fit: BoxFit.cover),
-              ),
-              const Positioned(
-                right: 8,
-                top: 8,
-                child: Icon(Icons.favorite_border, color: Colors.white),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(description, style: const TextStyle(fontSize: 12)),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    const Icon(Icons.star, size: 16, color: Colors.teal),
-                    Text(" $rating", style: const TextStyle(fontSize: 12)),
-                    const Spacer(),
-                    Icon(Icons.timer, size: 16, color: Colors.teal[300]),
-                    Text(" $duration", style: const TextStyle(fontSize: 12, color: Colors.teal)),
-                  ],
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                  child: Image.network(imageUrl, width: double.infinity, height: 100, fit: BoxFit.cover),
+                ),
+                const Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Icon(Icons.favorite_border, color: Colors.white),
                 ),
               ],
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text(description, style: const TextStyle(fontSize: 12)),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(Icons.star, size: 16, color: Colors.teal),
+                      Text(" $rating", style: const TextStyle(fontSize: 12)),
+                      const Spacer(),
+                      Icon(Icons.timer, size: 16, color: Colors.teal[300]),
+                      Text(" $duration", style: const TextStyle(fontSize: 12, color: Colors.teal)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

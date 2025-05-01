@@ -1,20 +1,6 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const FilterPage(),
-    );
-  }
-}
+import '../search/Result.dart';
+import '../search/Search.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({super.key});
@@ -61,7 +47,10 @@ class _FilterPageState extends State<FilterPage> {
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.teal),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => const RecipePage()),
+                    );
                   },
                 ),
               ),
@@ -98,12 +87,10 @@ class _FilterPageState extends State<FilterPage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
                     onPressed: () {
-                      setState(() {
-                        jenisHidangan.updateAll((key, value) => false);
-                        estimasiWaktu.updateAll((key, value) => false);
-                        tingkatKesulitan.updateAll((key, value) => false);
-                        bahanController.clear();
-                      });
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => const RecipePage()),
+                      );
                     },
                     child: const Text("Reset", style: TextStyle(color: Colors.white)),
                   ),
@@ -113,7 +100,10 @@ class _FilterPageState extends State<FilterPage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
                     onPressed: () {
-                      // Logika Apply di sini
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ResultPage()),
+                      );
                     },
                     child: const Text("Apply", style: TextStyle(color: Colors.white)),
                   ),

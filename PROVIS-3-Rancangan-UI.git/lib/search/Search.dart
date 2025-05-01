@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../profile/Profile.dart';
+import '../Main.dart';
+import '../community/Community.dart';
+import '../search/SortBy.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,161 +24,149 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class RecipePage extends StatelessWidget {
+class RecipePage extends StatefulWidget {
   const RecipePage({Key? key}) : super(key: key);
+
+  @override
+  State<RecipePage> createState() => _RecipePageState();
+}
+
+class _RecipePageState extends State<RecipePage> {
+  int _selectedIndex = 2;
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomePage()));
+        break;
+      case 1:
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Community()));
+        break;
+      case 2:
+        break;
+      case 3:
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ProfileRecipePage()));
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0A3B40),
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Search Bar
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF8CD0D3),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Row(
-                            children: [
-                              const Text(
-                                'Search',
-                                style: TextStyle(
+            SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF8CD0D3),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              decoration: const InputDecoration(
+                                hintText: 'Search',
+                                hintStyle: TextStyle(
                                   color: Colors.black54,
                                   fontSize: 16,
                                 ),
+                                border: InputBorder.none,
                               ),
-                              const Spacer(),
-                              Row(
-                                children: [
-                                  const Text(
-                                    'Sort by',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Container(
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.teal),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: const Icon(
-                                      Icons.filter_alt_outlined,
-                                      size: 18,
-                                      color: Colors.teal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Popular Recipe
-                      const Text(
-                        'Popular Recipe',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildRecipeItem('Lunch'),
-                          _buildRecipeItem('Lunch'),
-                          _buildRecipeItem('Lunch'),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => const FilterPage()),
+                              );
+                            },
+                            child: const Row(
+                              children: [
+                                Text(
+                                  'Sort by',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.filter_alt_outlined,
+                                  size: 18,
+                                  color: Colors.teal,
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Recommend For You
-                      const Text(
-                        'Recommend For You',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildRecipeItem('Lunch'),
-                          _buildRecipeItem('Lunch'),
-                          _buildRecipeItem('Lunch'),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Featured items
-                      Row(
-                        children: [
-                          Expanded(child: _buildFeaturedItem('Chicken Burger', '15min')),
-                          const SizedBox(width: 10),
-                          Expanded(child: _buildFeaturedItem('Tiramisu', '15min')),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 20),
-                      
-                      // Recently Added
-                      const Text(
-                        'Recently Added',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Expanded(child: _buildRecentItem('Tacos')),
-                          const SizedBox(width: 10),
-                          Expanded(child: _buildRecentItem('Mojito')),
-                        ],
-                      ),
-                      
-                      const SizedBox(height: 70), // Space for bottom navigation
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text('Popular Recipe', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildRecipeItem('Lunch'),
+                      _buildRecipeItem('Lunch'),
+                      _buildRecipeItem('Lunch'),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  const Text('Recommend For You', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildRecipeItem('Lunch'),
+                      _buildRecipeItem('Lunch'),
+                      _buildRecipeItem('Lunch'),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(child: _buildFeaturedItem('Chicken Burger', '15min')),
+                      const SizedBox(width: 10),
+                      Expanded(child: _buildFeaturedItem('Tiramisu', '15min')),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Text('Recently Added', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(child: _buildRecentItem('Tacos')),
+                      const SizedBox(width: 10),
+                      Expanded(child: _buildRecentItem('Mojito')),
+                    ],
+                  ),
+                  const SizedBox(height: 80),
+                ],
               ),
             ),
-            
-            // Bottom Navigation
             Positioned(
               bottom: 20,
               left: 0,
               right: 0,
               child: Center(
                 child: Container(
-                  width: 240,
+                  width: 260,
                   height: 60,
                   decoration: BoxDecoration(
                     color: Colors.teal,
@@ -183,18 +175,10 @@ class RecipePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Icon(Icons.home_outlined, color: Colors.white),
-                      const Icon(Icons.chat_bubble_outline, color: Colors.white),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.white, width: 2),
-                          ),
-                        ),
-                        child: const Icon(Icons.search, color: Colors.white),
-                      ),
-                      const Icon(Icons.person_outline, color: Colors.white),
+                      _navIcon(Icons.home_outlined, 0),
+                      _navIcon(Icons.chat_bubble_outline, 1),
+                      _navIcon(Icons.search, 2, isCenter: true),
+                      _navIcon(Icons.person_outline, 3),
                     ],
                   ),
                 ),
@@ -206,7 +190,25 @@ class RecipePage extends StatelessWidget {
     );
   }
 
-  Widget _buildRecipeItem(String title) {
+  Widget _navIcon(IconData icon, int index, {bool isCenter = false}) {
+    final isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () => _onNavItemTapped(index),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: isCenter && isSelected
+            ? const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Colors.white, width: 2),
+                ),
+              )
+            : null,
+        child: Icon(icon, color: Colors.white),
+      ),
+    );
+  }
+
+  static Widget _buildRecipeItem(String title) {
     return Column(
       children: [
         Container(
@@ -221,18 +223,12 @@ class RecipePage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+        Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
       ],
     );
   }
 
-  Widget _buildFeaturedItem(String title, String time) {
+  static Widget _buildFeaturedItem(String title, String time) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFF5F5F5),
@@ -244,16 +240,11 @@ class RecipePage extends StatelessWidget {
           Container(
             height: 120,
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
               image: DecorationImage(
-                image: NetworkImage(
-                  title == 'Chicken Burger'
-                      ? 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop'
-                      : 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=1000&auto=format&fit=crop',
-                ),
+                image: NetworkImage(title == 'Chicken Burger'
+                    ? 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop'
+                    : 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=1000&auto=format&fit=crop'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -263,29 +254,15 @@ class RecipePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.star, color: Colors.amber, size: 16),
-                        Text(' 5', style: TextStyle(fontSize: 12)),
-                      ],
-                    ),
+                    const Icon(Icons.star, color: Colors.amber, size: 16),
+                    const Text(' 5', style: TextStyle(fontSize: 12)),
                     const SizedBox(width: 10),
-                    Row(
-                      children: [
-                        const Icon(Icons.access_time, color: Colors.grey, size: 16),
-                        Text(' $time', style: const TextStyle(fontSize: 12)),
-                      ],
-                    ),
+                    const Icon(Icons.access_time, color: Colors.grey, size: 16),
+                    Text(' $time', style: const TextStyle(fontSize: 12)),
                   ],
                 ),
               ],
@@ -296,7 +273,7 @@ class RecipePage extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentItem(String title) {
+  static Widget _buildRecentItem(String title) {
     return Stack(
       children: [
         Container(
@@ -304,11 +281,9 @@ class RecipePage extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             image: DecorationImage(
-              image: NetworkImage(
-                title == 'Tacos'
-                    ? 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=1000&auto=format&fit=crop'
-                    : 'https://images.unsplash.com/photo-1546171753-97d7676e4602?q=80&w=1000&auto=format&fit=crop',
-              ),
+              image: NetworkImage(title == 'Tacos'
+                  ? 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=1000&auto=format&fit=crop'
+                  : 'https://images.unsplash.com/photo-1546171753-97d7676e4602?q=80&w=1000&auto=format&fit=crop'),
               fit: BoxFit.cover,
             ),
           ),
@@ -322,11 +297,7 @@ class RecipePage extends StatelessWidget {
               color: Colors.teal,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.favorite_border,
-              color: Colors.white,
-              size: 18,
-            ),
+            child: const Icon(Icons.favorite_border, color: Colors.white, size: 18),
           ),
         ),
       ],
