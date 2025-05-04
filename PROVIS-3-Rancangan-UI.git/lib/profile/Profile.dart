@@ -6,6 +6,8 @@ import '../myresep/EditRecipe.dart';
 import '../search/Search.dart';
 import 'Following.dart' show FollowingPage;
 import 'Followers.dart' show FollowersPage;
+import '../profile/EditProfile.dart';
+import '../profile/ShareProfile.dart';
 
 class ProfileRecipePage extends StatefulWidget {
   const ProfileRecipePage({Key? key}) : super(key: key);
@@ -269,7 +271,13 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
         children: [
           Expanded(
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Navigate to EditProfile page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EditProfile()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFAFDED9),
                 foregroundColor: const Color(0xFF2A9D8F),
@@ -290,7 +298,13 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
           const SizedBox(width: 16),
           Expanded(
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // Navigate to ShareProfile page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ShareProfile()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFAFDED9),
                 foregroundColor: const Color(0xFF2A9D8F),
@@ -573,5 +587,3 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
     );
   }
 }
-
-// RecipePage sudah didefinisikan di tempat lain dalam proyek
