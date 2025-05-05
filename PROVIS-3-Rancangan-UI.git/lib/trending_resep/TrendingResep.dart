@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 // Import recipe data from separate files
-import '../screens/pizza_recipe.dart';
-import '../screens/curry_recipe.dart';
-import '../screens/burger_recipe.dart';
-import '../screens/tiramisu_recipe.dart';
+import 'PizzaResep.dart';
+import 'CurryResep.dart';
+import 'BurgerResep.dart';
+import 'TiramisuResep.dart';
 
 class Recipe {
   final String id;
