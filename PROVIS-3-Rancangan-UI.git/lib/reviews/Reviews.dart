@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import '../profile/Profile.dart';
+import '../search/Search.dart';
+import '../profile/Following.dart';
+import '../profile/Followers.dart';
+import '../Main.dart';
+import '../search/DetailMenu.dart';
+import '../community/Community.dart';
+import 'AddReviews.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Reviews extends StatelessWidget {
+  const Reviews({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +24,48 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ReviewsPage extends StatelessWidget {
-  const ReviewsPage({Key? key}) : super(key: key);
+class ReviewsPage extends StatefulWidget {
+  const ReviewsPage({super.key});
+
+  @override
+  _ReviewsPageState createState() => _ReviewsPageState();
+}
+
+class _ReviewsPageState extends State<ReviewsPage> {
+  int _selectedIndex = 1; // Set the default selected index to 1 (bubble chat icon)
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const Community()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const RecipePage()),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ProfileRecipePage()),
+        );
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,11 +190,15 @@ class ReviewsPage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 8),
 
-                                    // Add review button
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const ReviewForm()),
+                                          );
+                                        },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.white,
                                           foregroundColor: const Color(0xFF008080),
@@ -218,8 +266,8 @@ class ReviewsPage extends StatelessWidget {
             ),
           ),
 
-          // Bottom Navigation
-          Positioned(
+          // Custom Bottom Navigation
+            Positioned(
             bottom: 20,
             left: 0,
             right: 0,
@@ -233,12 +281,37 @@ class ReviewsPage extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Icon(Icons.home_outlined, color: Colors.white),
-                    const Icon(Icons.chat_bubble_outline, color: Colors.white),
-                    const Icon(Icons.search, color: Colors.white),
-                    const Icon(Icons.person_outline, color: Colors.white),
-                  ],
+                  children: List.generate(4, (index) {
+                    final icons = [
+                      Icons.home_outlined,
+                      Icons.chat_bubble_outline,
+                      Icons.search,
+                      Icons.person_outline,
+                    ];
+
+                    final isSelected = _selectedIndex == index;
+
+                    return GestureDetector(
+                      onTap: () => _onNavItemTapped(index),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration:
+                            isSelected &&
+                                    index ==
+                                        1 // Ensure only bubble chat is underlined
+                                ? const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                )
+                                : null,
+                        child: Icon(icons[index], color: Colors.white),
+                      ),
+                    );
+                  }),
                 ),
               ),
             ),

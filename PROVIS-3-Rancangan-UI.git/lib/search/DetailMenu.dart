@@ -6,6 +6,7 @@ import '../profile/Followers.dart';
 import '../Main.dart';
 import '../search/DetailMenu.dart';
 import '../community/Community.dart';
+import '../reviews/Reviews.dart';
 
 class DetailMenu extends StatelessWidget {
   const DetailMenu({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class DetailMenu extends StatelessWidget {
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: DetailMenuScreen(),
+      home: const DetailMenuScreen(),
     );
   }
 }
@@ -39,6 +40,13 @@ class DetailMenuScreen extends StatefulWidget {
 class _DetailMenuScreenState extends State<DetailMenuScreen> {
   int _selectedIndex = 0;
   List<bool> _isFavorited = [];
+  final List<String> _steps = [
+    'Panaskan oven hingga suhu 220°C (428°F) dan siapkan loyang dengan kertas roti.',
+    'Gilas adonan pizza hingga berbentuk bundar atau sesuai ukuran loyang, lalu letakkan di atas loyang.',
+    'Oleskan saus tomat segar secara merata di atas adonan, kemudian taburi dengan keju mozzarella parut.',
+    'Tambahkan irisan salami di atas keju, lalu taburi oregano kering dan serpihan cabai merah jika suka.',
+    'Panggang pizza di oven selama 12-15 menit hingga kulitnya renyah dan keju meleleh sempurna. Angkat dan hias dengan daun basil segar sebelum disajikan.',
+  ];
 
   void _onNavItemTapped(int index) {
     setState(() {
@@ -80,6 +88,7 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
     _isFavorited = List<bool>.filled(10, false);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -95,20 +104,23 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Row(
-                        children: [
+                      children: [
                         IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.teal),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.teal,
+                          ),
                           onPressed: () {
-                          Navigator.pop(context);
+                            Navigator.pop(context);
                           },
                         ),
                         const Spacer(),
                         const Text(
                           'Salami and cheese pizza',
                           style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.teal,
                           ),
                         ),
                         const Spacer(),
@@ -121,11 +133,11 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                _isFavorited[0] = !_isFavorited[0]; // Replace '0' with the correct index if dynamic
+                                _isFavorited[0] = !_isFavorited[0];
                               });
                             },
                             child: Icon(
-                              _isFavorited[0] // Replace '0' with the correct index if dynamic
+                              _isFavorited[0]
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: Colors.white,
@@ -137,10 +149,14 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                         Container(
                           padding: const EdgeInsets.all(6),
                           decoration: const BoxDecoration(
-                          color: Colors.teal,
-                          shape: BoxShape.circle,
+                            color: Colors.teal,
+                            shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.share, color: Colors.white, size: 18),
+                          child: const Icon(
+                            Icons.share,
+                            color: Colors.white,
+                            size: 18,
+                          ),
                         ),
                       ],
                     ),
@@ -172,20 +188,66 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                               ),
                             ),
                             child: Row(
-                              children: const [
+                              children: [
                                 Expanded(
-                                  child: Text(
-                                    "Salami and cheese pizza",
-                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => const Reviews(),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text(
+                                      "Salami and cheese pizza",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                Icon(Icons.star, color: Colors.white, size: 16),
-                                SizedBox(width: 4),
-                                Text("3.9", style: TextStyle(color: Colors.white)),
-                                SizedBox(width: 8),
-                                Icon(Icons.comment, color: Colors.white, size: 16),
-                                SizedBox(width: 4),
-                                Text("2.273", style: TextStyle(color: Colors.white)),
+                                // Ubah bagian ini di file asal
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.star, color: Colors.amber, size: 16),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => const Reviews()),
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      '4.5', // Example rating
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.comment, color: Colors.grey, size: 16),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => const Reviews()),
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      '12',
+                                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -194,7 +256,6 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                     ),
                   ),
 
-                  // Tambahkan jarak antar elemen
                   const SizedBox(height: 16),
 
                   // Author Section
@@ -203,24 +264,38 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                     child: Row(
                       children: [
                         const CircleAvatar(
-                          backgroundImage: NetworkImage('https://images.unsplash.com/photo-1513104890138-7c749659a591'),
+                          backgroundImage: NetworkImage(
+                            'https://images.unsplash.com/photo-1513104890138-7c749659a591',
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
-                            Text('@josh-ryan', style: TextStyle(fontWeight: FontWeight.w500)),
-                            Text('Josh Ryan - Chef', style: TextStyle(fontSize: 12)),
+                            Text(
+                              '@josh-ryan',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              'Josh Ryan - Chef',
+                              style: TextStyle(fontSize: 12),
+                            ),
                           ],
                         ),
                         const Spacer(),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.teal[100],
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: const Text('Following', style: TextStyle(color: Colors.teal)),
+                          child: const Text(
+                            'Following',
+                            style: TextStyle(color: Colors.teal),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         const Icon(Icons.more_vert, color: Colors.teal),
@@ -236,7 +311,7 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                     child: Row(
                       children: [
                         Text(
-                          'Details',
+                          'Detail',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -248,10 +323,7 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                         SizedBox(width: 4),
                         Text(
                           '30min',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.grey, fontSize: 14),
                         ),
                       ],
                     ),
@@ -260,7 +332,7 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: Text(
-                        "Pizza lezat dengan topping salami, keju mozzarella, saus tomat segar, dan rempah-rempah pilihan, dipanggang hingga kulitnya renyah dan keju meleleh sempurna, menciptakan hidangan yang memanjakan selera untuk segala suasana.",
+                      "Pizza lezat dengan topping salami, keju mozzarella, saus tomat segar, dan rempah-rempah pilihan, dipanggang hingga kulitnya renyah dan keju meleleh sempurna, menciptakan hidangan yang memanjakan selera untuk segala suasana.",
                       style: TextStyle(fontSize: 14),
                     ),
                   ),
@@ -270,7 +342,13 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                   // Ingredients
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Ingredients', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      'Bahan-Bahan',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   const Padding(
@@ -283,7 +361,8 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                       '• 1 sendok teh oregano kering\n'
                       '• 1/2 sendok teh serpihan cabai merah (opsional)\n'
                       '• 1 sendok makan minyak zaitun\n'
-                      '• Daun basil segar untuk hiasan'),
+                      '• Daun basil segar untuk hiasan',
+                    ),
                   ),
 
                   const SizedBox(height: 16),
@@ -291,14 +370,21 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                   // Steps
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('5 Easy Steps', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.teal)),
+                    child: Text(
+                      '5 Langkah Mudah',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       children: [
-                        for (var i = 0; i < 5; i++)
+                        for (var i = 0; i < _steps.length; i++)
                           Container(
                             margin: const EdgeInsets.only(bottom: 10),
                             padding: const EdgeInsets.all(12),
@@ -330,20 +416,37 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Icon(Icons.home_outlined, color: Colors.white),
-                      const Icon(Icons.chat_bubble_outline, color: Colors.white),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.white, width: 2),
-                          ),
+                    children: List.generate(4, (index) {
+                      final icons = [
+                        Icons.home_outlined,
+                        Icons.chat_bubble_outline,
+                        Icons.search,
+                        Icons.person_outline,
+                      ];
+
+                      final isSelected = _selectedIndex == index;
+
+                      return GestureDetector(
+                        onTap: () => _onNavItemTapped(index),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration:
+                              isSelected &&
+                                      index ==
+                                          1 // Ensure only bubble chat is underlined
+                                  ? const BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: Colors.white,
+                                        width: 2,
+                                      ),
+                                    ),
+                                  )
+                                  : null,
+                          child: Icon(icons[index], color: Colors.white),
                         ),
-                        child: const Icon(Icons.search, color: Colors.white),
-                      ),
-                      const Icon(Icons.person_outline, color: Colors.white),
-                    ],
+                      );
+                    }),
                   ),
                 ),
               ),
@@ -353,12 +456,4 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
       ),
     );
   }
-
-  final List<String> _steps = [
-    'Panaskan oven hingga suhu 220°C (428°F) dan siapkan loyang dengan kertas roti.',
-    'Gilas adonan pizza hingga berbentuk bundar atau sesuai ukuran loyang, lalu letakkan di atas loyang.',
-    'Oleskan saus tomat segar secara merata di atas adonan, kemudian taburi dengan keju mozzarella parut.',
-    'Tambahkan irisan salami di atas keju, lalu taburi oregano kering dan serpihan cabai merah jika suka.',
-    'Panggang pizza di oven selama 12-15 menit hingga kulitnya renyah dan keju meleleh sempurna. Angkat dan hias dengan daun basil segar sebelum disajikan.',
-  ];
 }

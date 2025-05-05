@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import '../profile/Profile.dart';
+import '../search/Search.dart';
+import '../profile/Following.dart';
+import '../profile/Followers.dart';
+import '../Main.dart';
+import '../search/DetailMenu.dart';
+import '../community/Community.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class ReviewForm extends StatelessWidget {
+  const ReviewForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +36,41 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
   final TextEditingController _reviewController = TextEditingController();
   bool _showSuccessModal = false;
 
+  int _selectedIndex = 1;
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const Community()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const RecipePage()),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ProfileRecipePage()),
+        );
+        break;
+    }
+  }
+
   @override
   void dispose() {
     _reviewController.dispose();
@@ -55,68 +93,68 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
           SafeArea(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  // Handle back button press
+                },
+                child: const Icon(Icons.arrow_back, color: Color(0xFF008080)),
+              ),
+              const Expanded(
+                child: Center(
+                  child: Text(
+              'Leave A Review',
+              style: TextStyle(
+                color: Color(0xFF008080),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 24), // Balance the header
+            ],
+                ),
+              ),
+              
+              // Food image and name
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // Handle back button press
-                            },
-                            child: const Icon(Icons.arrow_back, color: Color(0xFF008080)),
-                          ),
-                          const Expanded(
-                            child: Center(
-                              child: Text(
-                                'Leave A Review',
-                                style: TextStyle(
-                                  color: Color(0xFF008080),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 24), // Balance the header
-                        ],
-                      ),
-                    ),
-                    
-                    // Food image and name
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Column(
-                        children: [
-                          Image.network(
-                            'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=400&q=80',
-                            height: 180,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                          Container(
-                            width: double.infinity,
-                            color: const Color(0xFF008080),
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: const Center(
-                              child: Text(
-                                'Chicken Burger',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    
+            children: [
+              Image.network(
+                'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=400&q=80',
+                height: 180,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              Container(
+                width: double.infinity,
+                color: const Color(0xFF008080),
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: const Center(
+                  child: Text(
+              'Chicken Burger',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+                  ),
+                ),
+              ),
+            ],
+                ),
+              ),
+              
                     const SizedBox(height: 16),
                     
                     // Rating stars
@@ -355,32 +393,6 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
             ),
           ),
           
-          // Bottom Navigation
-          Positioned(
-            bottom: 20,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Container(
-                width: 240,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF008080),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    Icon(Icons.home_outlined, color: Colors.white),
-                    Icon(Icons.chat_bubble_outline, color: Colors.white),
-                    Icon(Icons.search, color: Colors.white),
-                    Icon(Icons.person_outline, color: Colors.white),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          
           // Success Modal Overlay
           if (_showSuccessModal)
             Container(
@@ -448,6 +460,56 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                 ),
               ),
             ),
+          // Bottom Navigation
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                width: 240,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.teal,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(4, (index) {
+                    final icons = [
+                      Icons.home_outlined,
+                      Icons.chat_bubble_outline,
+                      Icons.search,
+                      Icons.person_outline,
+                    ];
+
+                    final isSelected = _selectedIndex == index;
+
+                    return GestureDetector(
+                      onTap: () => _onNavItemTapped(index),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration:
+                            isSelected &&
+                                    index ==
+                                        1 // Ensure only bubble chat is underlined
+                                ? const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                )
+                                : null,
+                        child: Icon(icons[index], color: Colors.white),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
