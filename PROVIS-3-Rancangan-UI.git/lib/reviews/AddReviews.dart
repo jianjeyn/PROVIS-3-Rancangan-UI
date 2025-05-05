@@ -462,7 +462,7 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
             ),
             Expanded(
             // Bagian ini akan mengisi sisa ruang yang tersisa
-            child: Center(child: Text('Content goes here')),
+            child: Center(),
           ),
           // Bottom Navigation
           Positioned(

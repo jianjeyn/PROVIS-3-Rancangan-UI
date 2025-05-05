@@ -107,11 +107,11 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                       children: [
                         IconButton(
                           icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.teal,
+                          Icons.arrow_back,
+                          color: Colors.teal,
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
+                          Navigator.pop(context);
                           },
                         ),
                         const Spacer(),
