@@ -19,29 +19,73 @@ Dalam era digital saat ini, banyak pengguna mengandalkan aplikasi mobile untuk m
 
 ---
 
-## Teknologi yang Digunakan
-
-- **Flutter** — Framework UI untuk pengembangan mobile lintas platform
-- **Dart** — Bahasa pemrograman untuk Flutter
-- Asset lokal (gambar, ikon, ilustrasi)
-
----
-
 ## Fitur Utama
 
 | Halaman/Fitur              | Deskripsi                                                                 |
 |----------------------------|---------------------------------------------------------------------------|
-| 🏠 **HomePage**            | Halaman utama yang menampilkan resep populer dan rekomendasi              |
-| 🔍 **Search**              | Pencarian resep berdasarkan kata kunci                                    |
-| 📌 **SortBy**              | Menyortir resep berdasarkan kategori tertentu                              |
-| 📈 **TrendingResep**       | Menampilkan resep-resep yang sedang trending                               |
-| ✍️ **EditRecipe**          | Halaman untuk mengunggah atau mengedit resep pribadi                       |
-| 👥 **Community**           | Menjelajahi resep yang dibagikan oleh pengguna lain                        |
-| 👤 **Profile**             | Halaman profil pengguna                                                   |
-| 🔐 **Login**               | Halaman untuk masuk ke akun pengguna                                       |
-| 🆕 **Signup**              | Halaman pendaftaran akun baru                                              |
-| ⭐ **Reviews**             | Melihat ulasan dari pengguna terhadap resep                                |
-| ➕ **AddReviews**          | Menambahkan ulasan untuk resep tertentu                                    |
-| 📄 **DetailMenu**          | Menampilkan detail lengkap sebuah resep makanan                            |
+|  **HomePage**            | Halaman utama yang menampilkan resep populer dan rekomendasi              |
+|  **Search**              | Pencarian resep berdasarkan kata kunci                                    |
+|  **SortBy**              | Menyortir resep berdasarkan kategori tertentu                              |
+|  **TrendingResep**       | Menampilkan resep-resep yang sedang trending                               |
+|  **EditRecipe**          | Halaman untuk mengunggah atau mengedit resep pribadi                       |
+|  **Community**           | Menjelajahi resep yang dibagikan oleh pengguna lain                        |
+|  **Profile**             | Halaman profil pengguna                                                   |
+|  **Login**               | Halaman untuk masuk ke akun pengguna                                       |
+|  **Signup**              | Halaman pendaftaran akun baru                                              |
+|  **Reviews**             | Melihat ulasan dari pengguna terhadap resep                                |
+|  **AddReviews**          | Menambahkan ulasan untuk resep tertentu                                    |
+|  **DetailMenu**          | Menampilkan detail lengkap sebuah resep makanan                            |
 
 ---
+
+## Screenshots
+
+*Tambahkan screenshot aplikasi Anda di sini*
+
+## Prasyarat
+
+- Flutter (2.0.0 atau lebih tinggi)
+- Dart (2.12.0 atau lebih tinggi)
+- Android Studio / VS Code
+- Android SDK / Xcode (untuk pengembangan iOS)
+
+## Instalasi
+
+1. Clone repository
+   \`\`\`bash
+   git clone https://github.com/username-anda/recipe-app.git
+   \`\`\`
+
+2. Masuk ke direktori proyek
+   \`\`\`bash
+   cd recipe-app
+   \`\`\`
+
+3. Install dependencies
+   \`\`\`bash
+   flutter pub get
+   \`\`\`
+
+4. Jalankan aplikasi
+   \`\`\`bash
+   flutter run
+   \`\`\`
+
+## Roadmap Pengembangan
+
+- [x] Implementasi UI dasar
+- [x] Navigasi antar layar
+- [ ] Integrasi backend
+- [ ] Autentikasi pengguna
+- [ ] Database resep
+- [ ] Fitur sosial
+- [ ] Dukungan offline
+- [ ] Notifikasi push
+
+## Ucapan Terima Kasih
+
+- [Flutter](https://flutter.dev/)
+- [Dart](https://dart.dev/)
+- [Material Design](https://material.io/)
+- [Font Awesome](https://fontawesome.com/) untuk ikon
+- [Unsplash](https://unsplash.com/) untuk gambar placeholder
