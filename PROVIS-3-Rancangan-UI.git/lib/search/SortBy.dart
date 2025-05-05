@@ -87,11 +87,16 @@ class _FilterPageState extends State<FilterPage> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const RecipePage()),
-                      );
-                    },
+                    setState(() {
+                      // Reset semua pilihan ke false
+                      jenisHidangan.updateAll((key, value) => false);
+                      estimasiWaktu.updateAll((key, value) => false);
+                      tingkatKesulitan.updateAll((key, value) => false);
+
+                      // Kosongkan input bahan
+                      bahanController.clear();
+                    });
+                  },
                     child: const Text("Reset", style: TextStyle(color: Colors.white)),
                   ),
                   ElevatedButton(
