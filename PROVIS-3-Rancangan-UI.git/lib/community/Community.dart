@@ -29,413 +29,229 @@ class Community extends StatelessWidget {
 }
 
 class CommunityScreen extends StatefulWidget {
-  const CommunityScreen({super.key});
+  const CommunityScreen({Key? key}) : super(key: key);
 
   @override
-  _CommunityScreenState createState() => _CommunityScreenState();
+  State<CommunityScreen> createState() => _CommunityScreenState();
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
-  int _selectedIndex = 0;
-  List<bool> _isFavorited = [];
-
-  void _onNavItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const Community()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const RecipePage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const ProfileRecipePage()),
-        );
-        break;
-    }
-  }
-
+  bool _obscureText = true;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    _buildHeader(context),
-                    const SizedBox(height: 20),
-                    _buildCategoryButtons(),
-                    const SizedBox(height: 24),
-                    _buildCommunityRecipeList(),
-                    const SizedBox(height: 80), // Space for bottom navigation
-                  ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 30),
+                const Text(
+                  'Login',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2A9D8F),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          // Custom Bottom Navigation
-          Positioned(
-            bottom: 20,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Container(
-                width: 240,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Colors.teal,
-                  borderRadius: BorderRadius.circular(30),
+                const SizedBox(height: 80),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Email',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[800],
+                    ),
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(4, (index) {
-                    final icons = [
-                      Icons.home_outlined,
-                      Icons.chat_bubble_outline,
-                      Icons.search,
-                      Icons.person_outline,
-                    ];
-
-                    final isSelected = _selectedIndex == index;
-
-                    return GestureDetector(
-                      onTap: () => _onNavItemTapped(index),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration:
-                            isSelected &&
-                                    index ==
-                                        1 // Ensure only bubble chat is underlined
-                                ? const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.white,
-                                      width: 2,
-                                    ),
-                                  ),
-                                )
-                                : null,
-                        child: Icon(icons[index], color: Colors.white),
+                const SizedBox(height: 8),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: 'example@example.com',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    filled: true,
+                    fillColor: const Color(0xFF9DD4D0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Password',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[800],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  obscureText: _obscureText,
+                  decoration: InputDecoration(
+                    hintText: '••••••••',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    filled: true,
+                    fillColor: const Color(0xFF9DD4D0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey[700],
                       ),
-                    );
-                  }),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedIndex =
-        1; // Set the default selected index to 1 (bubble chat icon)
-    _isFavorited = List<bool>.filled(10, false);
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        IconButton(
-          icon: Icon(Icons.arrow_back, color: Color(0xFF2A9D8F)),
-          onPressed: () {
-            Navigator.pop(context); // Back navigation
-          },
-        ),
-        Text(
-          'Community',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF2A9D8F),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Color(0xFFA9D6DB), // light blue
-            shape: BoxShape.circle,
-          ),
-          padding: EdgeInsets.all(8),
-          child: Icon(Icons.notifications, color: Color(0xFF2A9D8F), size: 20),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCategoryButtons() {
-    final categories = ['Vegan', 'Baker', 'Diet', 'Anak Kos', 'Murah Meriah'];
-    String selectedCategory = 'Vegan';
-
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children:
-                categories.map((category) {
-                  final isSelected = category == selectedCategory;
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          selectedCategory = category;
+                          _obscureText = !_obscureText;
                         });
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            isSelected ? Color(0xFF2A9D8F) : Colors.white,
-                        foregroundColor:
-                            isSelected ? Colors.white : Colors.black,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                            color:
-                                isSelected
-                                    ? Colors.transparent
-                                    : Colors.grey.shade300,
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF9DD4D0),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Text(category),
+                      elevation: 0,
                     ),
-                  );
-                }).toList(),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildCommunityRecipeList() {
-    final recipes = List.generate(
-      10,
-      (index) => {
-        'title': 'Salami and cheese pizza',
-        'description': 'Pizza lezat dengan topping salami, keju mozzarella, saus tomat segar, dan...',
-        'image': 'https://images.unsplash.com/photo-1513104890138-7c749659a591',
-        'time': '30 min',
-        'username': '@josh-ryan',
-        'uploadDate': '2 years ago',
-      },
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListView.builder(
-          itemCount: recipes.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            final recipe = recipes[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: _buildCommunityRecipeCard(recipe, index),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCommunityRecipeCard(Map recipe, int index) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DetailMenu()),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage('https://images.unsplash.com/photo-1513104890138-7c749659a591'),
+                    child: const Text(
+                      'Log In',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        recipe['username'],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF9DD4D0),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'or sign up with',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _socialButton('images/instagram.png'),
+                    const SizedBox(width: 16),
+                    _socialButton('images/google.png'),
+                    const SizedBox(width: 16),
+                    _socialButton('images/facebook.png'),
+                    const SizedBox(width: 16),
+                    _socialButton('images/whatsapp.png'),
+                  ],
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have an account? ",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Text(
+                        "Sign Up",
                         style: TextStyle(
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
                       ),
-                      Text(
-                        recipe['uploadDate'],
-                        style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  ),
-                  child: Image.network(
-                    recipe['image'],
-                    height: 180,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: const BoxDecoration(
-                      color: Colors.teal,
-                      shape: BoxShape.circle,
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _isFavorited[index] = !_isFavorited[index];
-                        });
-                      },
-                      child: Icon(
-                        _isFavorited[index]
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 10,
-                  right: 10,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.access_time, size: 14),
-                        SizedBox(width: 4),
-                        Text(recipe['time'], style: TextStyle(fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 20),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        recipe['title'],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    recipe['description'],
-                    style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.star, color: Colors.amber, size: 16),
-                          SizedBox(width: 4),
-                          Text(
-                            '3.9', // Example rating
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.comment, color: Colors.grey, size: 16),
-                          SizedBox(width: 4),
-                          Text(
-                            '2.273',
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _socialButton(String iconPath) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Image.asset(
+          iconPath,
+          width: 20,
+          height: 20,
         ),
       ),
     );
