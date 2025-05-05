@@ -6,6 +6,7 @@ import '../community/Community.dart';
 import '../profile/Following.dart';
 import '../profile/Followers.dart';
 import '../trending_resep/TrendingResep.dart';
+import '../navbar/custom_navbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -73,53 +74,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          // Custom Bottom Navigation
-          Positioned(
-            bottom: 20,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Container(
-                width: 240,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Colors.teal,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(4, (index) {
-                    final icons = [
-                      Icons.home_outlined,
-                      Icons.search,
-                      Icons.people_outline,
-                      Icons.person_outline,
-                    ];
-
-                    final isSelected = _selectedIndex == index;
-
-                    return GestureDetector(
-                      onTap: () => _onNavItemTapped(index),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration:
-                            isSelected
-                                ? const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.white,
-                                      width: 2,
-                                    ),
-                                  ),
-                                )
-                                : null,
-                        child: Icon(icons[index], color: Colors.white),
-                      ),
-                    );
-                  }),
-                ),
-              ),
-            ),
+                    // Add the CustomNavbar here
+          CustomNavbar(
+            selectedIndex: _selectedIndex,
+            onItemTapped: _onNavItemTapped,
           ),
         ],
       ),
