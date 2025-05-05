@@ -28,14 +28,14 @@ import 'package:flutter/services.dart';
 //   }
 // }
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<Login> createState() => _LoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginState extends State<Login> {
   bool _obscureText = true;
   
   @override
@@ -196,13 +196,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _socialButton('assets/instagram.png'),
+                    _socialButton('images/instagram.png'),
                     const SizedBox(width: 16),
-                    _socialButton('assets/google.png'),
+                    _socialButton('images/google.png'),
                     const SizedBox(width: 16),
-                    _socialButton('assets/facebook.png'),
+                    _socialButton('images/facebook.png'),
                     const SizedBox(width: 16),
-                    _socialButton('assets/whatsapp.png'),
+                    _socialButton('images/whatsapp.png'),
                   ],
                 ),
                 const SizedBox(height: 30),
