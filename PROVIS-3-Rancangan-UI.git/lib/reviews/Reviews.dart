@@ -32,7 +32,7 @@ class ReviewsPage extends StatefulWidget {
 }
 
 class _ReviewsPageState extends State<ReviewsPage> {
-  int _selectedIndex = 1; // Set the default selected index to 1 (bubble chat icon)
+  int _selectedIndex = 1;
 
   void _onNavItemTapped(int index) {
     setState(() {
@@ -70,7 +70,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Using Stack for the bottom navigation
       body: Stack(
         children: [
           SafeArea(
@@ -83,7 +82,10 @@ class _ReviewsPageState extends State<ReviewsPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // Handle back button press
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const DetailMenu()),
+                          );
                         },
                         child: const Icon(Icons.arrow_back, color: Color(0xFF008080)),
                       ),
@@ -99,7 +101,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 24), // Balance the header
+                      const SizedBox(width: 24),
                     ],
                   ),
                 ),
@@ -121,7 +123,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Food image
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: Image.network(
@@ -132,8 +133,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                 ),
                               ),
                               const SizedBox(width: 12),
-
-                              // Food details
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,8 +146,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                       ),
                                     ),
                                     const SizedBox(height: 4),
-
-                                    // Rating stars
                                     Row(
                                       children: [
                                         for (int i = 0; i < 4; i++)
@@ -162,8 +159,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                       ],
                                     ),
                                     const SizedBox(height: 8),
-
-                                    // Chef info
                                     Row(
                                       children: [
                                         const CircleAvatar(
@@ -189,7 +184,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
                                       ],
                                     ),
                                     const SizedBox(height: 8),
-
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: ElevatedButton(
@@ -220,7 +214,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         ),
                       ),
 
-                      // Comments section
                       const Padding(
                         padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 8.0),
                         child: Text(
@@ -233,23 +226,18 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         ),
                       ),
 
-                      // Comment 1
                       _buildCommentItem(
                         username: '@nnael_exp',
                         timeAgo: '(15 Mins Ago)',
                         avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=50&h=50&q=80',
                         rating: 4,
                       ),
-
-                      // Comment 2
                       _buildCommentItem(
                         username: '@yahyocoolquy',
                         timeAgo: '(40 Mins Ago)',
                         avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=50&h=50&q=80',
                         rating: 3,
                       ),
-
-                      // Comment 3
                       _buildCommentItem(
                         username: '@alllavegan',
                         timeAgo: '(1 Hr Ago)',
@@ -257,7 +245,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         rating: 5,
                       ),
 
-                      // Add some bottom padding for scrolling
                       const SizedBox(height: 100),
                     ],
                   ),
@@ -267,7 +254,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           ),
 
           // Custom Bottom Navigation
-            Positioned(
+          Positioned(
             bottom: 20,
             left: 0,
             right: 0,
@@ -288,26 +275,21 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       Icons.search,
                       Icons.person_outline,
                     ];
-
                     final isSelected = _selectedIndex == index;
-
                     return GestureDetector(
                       onTap: () => _onNavItemTapped(index),
                       child: Container(
                         padding: const EdgeInsets.all(8),
-                        decoration:
-                            isSelected &&
-                                    index ==
-                                        1 // Ensure only bubble chat is underlined
-                                ? const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      color: Colors.white,
-                                      width: 2,
-                                    ),
+                        decoration: isSelected && index == 1
+                            ? const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.white,
+                                    width: 2,
                                   ),
-                                )
-                                : null,
+                                ),
+                              )
+                            : null,
                         child: Icon(icons[index], color: Colors.white),
                       ),
                     );
@@ -327,6 +309,18 @@ class _ReviewsPageState extends State<ReviewsPage> {
     required String avatarUrl,
     required int rating,
   }) {
+    String commentText;
+
+    if (username == '@nnael_exp') {
+      commentText = 'Rasa burgernya enak banget! Dagingnya juicy dan bumbunya pas.';
+    } else if (username == '@yahyocoolquy') {
+      commentText = 'Lumayan enak, tapi rotinya agak keras. Bisa ditingkatkan lagi.';
+    } else if (username == '@alllavegan') {
+      commentText = 'Suka banget sama menunya! Cocok juga buat yang lagi cari opsi sehat.';
+    } else {
+      commentText = 'Makanannya oke, pelayanan juga cepat. Recommended!';
+    }
+
     return Column(
       children: [
         Padding(
@@ -334,19 +328,15 @@ class _ReviewsPageState extends State<ReviewsPage> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // User avatar
               CircleAvatar(
                 radius: 20,
                 backgroundImage: NetworkImage(avatarUrl),
               ),
               const SizedBox(width: 12),
-
-              // Comment content
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Username and time
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -367,15 +357,11 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       ],
                     ),
                     const SizedBox(height: 8),
-
-                    // Comment text
-                    const Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent fringilla eleifend purus vel dignissim. Praesent urna ante, iaculis et lobortis eu.',
-                      style: TextStyle(fontSize: 12),
+                    Text(
+                      commentText,
+                      style: const TextStyle(fontSize: 12),
                     ),
                     const SizedBox(height: 8),
-
-                    // Rating stars
                     Row(
                       children: [
                         for (int i = 0; i < rating; i++)
@@ -390,8 +376,6 @@ class _ReviewsPageState extends State<ReviewsPage> {
             ],
           ),
         ),
-
-        // Divider
         const Divider(height: 1),
       ],
     );
