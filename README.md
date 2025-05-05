@@ -56,7 +56,7 @@ Dalam era digital saat ini, banyak pengguna mengandalkan aplikasi mobile untuk m
 
 
 
-## Prasyarat
+## Instalasi
 
 - Flutter (2.0.0 atau lebih tinggi)
 - Dart (2.12.0 atau lebih tinggi)
