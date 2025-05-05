@@ -6,6 +6,7 @@ import '../profile/Followers.dart';
 import '../Main.dart';
 import '../search/DetailMenu.dart';
 import '../home/HomePage.dart';
+import '../notification/Notification.dart'; // Import the Notification page
 
 class Community extends StatelessWidget {
   const Community({Key? key}) : super(key: key);
@@ -179,13 +180,27 @@ class _CommunityScreenState extends State<CommunityScreen> {
             color: Color(0xFF2A9D8F),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: Color(0xFFA9D6DB), // light blue
-            shape: BoxShape.circle,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NotificationsScreen(),
+              ), // Navigate to NotificationPage
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(0xFFA9D6DB), // light blue
+              shape: BoxShape.circle,
+            ),
+            padding: EdgeInsets.all(8),
+            child: Icon(
+              Icons.notifications,
+              color: Color(0xFF2A9D8F),
+              size: 20,
+            ),
           ),
-          padding: EdgeInsets.all(8),
-          child: Icon(Icons.notifications, color: Color(0xFF2A9D8F), size: 20),
         ),
       ],
     );
@@ -246,7 +261,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
       10,
       (index) => {
         'title': 'Salami and cheese pizza',
-        'description': 'Pizza lezat dengan topping salami, keju mozzarella, saus tomat segar, dan...',
+        'description':
+            'Pizza lezat dengan topping salami, keju mozzarella, saus tomat segar, dan...',
         'image': 'https://images.unsplash.com/photo-1513104890138-7c749659a591',
         'time': '30 min',
         'username': '@josh-ryan',
@@ -302,8 +318,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
               child: Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage('https://images.unsplash.com/photo-1513104890138-7c749659a591'),
+                    backgroundImage: NetworkImage(
+                      'https://images.unsplash.com/photo-1513104890138-7c749659a591',
                     ),
+                  ),
                   SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
