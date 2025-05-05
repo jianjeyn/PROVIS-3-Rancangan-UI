@@ -7,6 +7,12 @@ import 'BurgerResep.dart';
 import 'TiramisuResep.dart';
 import '../navbar/custom_navbar.dart';
 
+// Import the pages for navigation
+import '../Main.dart'; // Home page
+import '../community/community.dart'; // Community page
+import '../myresep/EditRecipe.dart'; // Add Recipe page
+import '../profile/Profile.dart'; // Profile page
+
 class Recipe {
   final String id;
   final String image;
@@ -49,6 +55,34 @@ class _RecipeHomePageState extends State<RecipeHomePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    // Add navigation logic based on selected index
+    switch (index) {
+      case 0:
+        // Already on home page, no need to navigate
+        break;
+      case 1:
+        // Navigate to Community page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const Community()),
+        );
+        break;
+      case 2:
+        // Navigate to Add Recipe page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const EditRecipePage()),
+        );
+        break;
+      case 3:
+        // Navigate to Profile page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ProfileRecipePage()),
+        );
+        break;
+    }
   }
 
   @override
@@ -396,6 +430,38 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    // Add navigation logic based on selected index
+    switch (index) {
+      case 0:
+        // Navigate to Home page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
+        break;
+      case 1:
+        // Navigate to Community page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const Community()),
+        );
+        break;
+      case 2:
+        // Navigate to Add Recipe page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const EditRecipePage()),
+        );
+        break;
+      case 3:
+        // Navigate to Profile page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ProfileRecipePage()),
+        );
+        break;
+    }
   }
 
   @override
