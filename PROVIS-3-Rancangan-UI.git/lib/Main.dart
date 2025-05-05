@@ -49,19 +49,27 @@ class _HomePageState extends State<HomePage> {
     switch (index) {
       case 0:
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const HomePage()));
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+        );
         break;
       case 1:
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const Community()));
+          context,
+          MaterialPageRoute(builder: (_) => const Community()),
+        );
         break;
       case 2:
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const RecipePage()));
+          context,
+          MaterialPageRoute(builder: (_) => const RecipePage()),
+        );
         break;
       case 3:
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => const ProfileRecipePage()));
+          context,
+          MaterialPageRoute(builder: (_) => const ProfileRecipePage()),
+        );
         break;
     }
   }
@@ -121,17 +129,18 @@ class _HomePageState extends State<HomePage> {
                       onTap: () => _onNavItemTapped(index),
                       child: Container(
                         padding: const EdgeInsets.all(8),
-                        decoration: isSelected
-                            ? const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.white, width: 2),
-                                ),
-                              )
-                            : null,
-                        child: Icon(
-                          icons[index],
-                          color: Colors.white,
-                        ),
+                        decoration:
+                            isSelected
+                                ? const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                )
+                                : null,
+                        child: Icon(icons[index], color: Colors.white),
                       ),
                     );
                   }),
@@ -161,10 +170,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Text(
               'What are you cooking today',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
             ),
           ],
         ),
@@ -189,28 +195,36 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: categories.map((category) {
-          final isSelected = category == 'Breakfast';
-          return Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isSelected ? const Color(0xFF2A9D8F) : Colors.white,
-                foregroundColor: isSelected ? Colors.white : Colors.black,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(
-                    color: isSelected ? Colors.transparent : Colors.grey.shade300,
+        children:
+            categories.map((category) {
+              final isSelected = category == 'Breakfast';
+              return Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        isSelected ? const Color(0xFF2A9D8F) : Colors.white,
+                    foregroundColor: isSelected ? Colors.white : Colors.black,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(
+                        color:
+                            isSelected
+                                ? Colors.transparent
+                                : Colors.grey.shade300,
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                   ),
+                  child: Text(category),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              ),
-              child: Text(category),
-            ),
-          );
-        }).toList(),
+              );
+            }).toList(),
       ),
     );
   }
@@ -219,11 +233,28 @@ class _HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Trending Recipe',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Trending Recipe',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              TextButton(
+                onPressed: () {
+                  // TODO: Tambahkan navigasi ke halaman semua resep trending
+                },
+                child: const Text(
+                  'See All',
+                  style: TextStyle(
+                    color: Colors.teal,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 12),
@@ -246,7 +277,9 @@ class _HomePageState extends State<HomePage> {
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(12),
+                    ),
                     child: Image.network(
                       'https://images.unsplash.com/photo-1513104890138-7c749659a591',
                       height: 180,
@@ -274,7 +307,10 @@ class _HomePageState extends State<HomePage> {
                     bottom: 10,
                     right: 10,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -290,34 +326,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Salami and cheese pizza',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    Text(
-                      'Pizza made with a mix of the ingredients...',
-                      style: TextStyle(color: Colors.grey, fontSize: 12),
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Icon(Icons.star, color: Colors.amber, size: 16),
-                        Icon(Icons.star, color: Colors.amber, size: 16),
-                        Icon(Icons.star, color: Colors.amber, size: 16),
-                        Icon(Icons.star, color: Colors.amber, size: 16),
-                        Icon(Icons.star_half, color: Colors.amber, size: 16),
-                        Spacer(),
-                        Icon(Icons.favorite, color: Colors.red, size: 16),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              // Tambahkan elemen lainnya jika perlu
             ],
           ),
         ),
@@ -359,7 +368,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildRecipeCard(String title, String imageUrl, String time, double rating) {
+  Widget _buildRecipeCard(
+    String title,
+    String imageUrl,
+    String time,
+    double rating,
+  ) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -379,7 +393,9 @@ class _HomePageState extends State<HomePage> {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12),
+                ),
                 child: Image.network(
                   imageUrl,
                   height: 100,
@@ -410,17 +426,29 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
                     const Icon(Icons.star, color: Colors.amber, size: 14),
                     const SizedBox(width: 2),
-                    Text(rating.toString(), style: const TextStyle(fontSize: 12)),
+                    Text(
+                      rating.toString(),
+                      style: const TextStyle(fontSize: 12),
+                    ),
                     const Spacer(),
                     const Icon(Icons.access_time, size: 12, color: Colors.grey),
                     const SizedBox(width: 2),
-                    Text(time, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                    Text(
+                      time,
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
                   ],
                 ),
               ],
@@ -435,13 +463,24 @@ class _HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Recently Added', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Text(
+          'Recently Added',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: _buildRecentlyItem('https://images.unsplash.com/photo-1565299507177-b0ac66763828')),
+            Expanded(
+              child: _buildRecentlyItem(
+                'https://images.unsplash.com/photo-1565299507177-b0ac66763828',
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildRecentlyItem('https://images.unsplash.com/photo-1576506295286-5cda18df43e7')),
+            Expanded(
+              child: _buildRecentlyItem(
+                'https://images.unsplash.com/photo-1576506295286-5cda18df43e7',
+              ),
+            ),
           ],
         ),
       ],
@@ -455,31 +494,41 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
         boxShadow: [
-          BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 2)),
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
         ],
       ),
       child: Stack(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(imageUrl, height: 120, width: double.infinity, fit: BoxFit.cover),
+            child: Image.network(
+              imageUrl,
+              height: 120,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
           Positioned(
-                top: 10,
-                right: 10,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: const BoxDecoration(
-                    color: Colors.teal,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.favorite_border,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                ),
+            top: 10,
+            right: 10,
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: const BoxDecoration(
+                color: Colors.teal,
+                shape: BoxShape.circle,
               ),
+              child: const Icon(
+                Icons.favorite_border,
+                color: Colors.white,
+                size: 18,
+              ),
+            ),
+          ),
         ],
       ),
     );

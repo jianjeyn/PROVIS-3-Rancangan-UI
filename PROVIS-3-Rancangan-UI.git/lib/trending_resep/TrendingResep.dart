@@ -119,23 +119,6 @@ class RecipeHomePage extends StatelessWidget {
                     ),
                   ),
 
-                  // See All Row
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        Text(
-                          'See All',
-                          style: TextStyle(
-                            color: Colors.teal,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
                   // Regular Recipe Cards
                   ...recipes
                       .sublist(1)
