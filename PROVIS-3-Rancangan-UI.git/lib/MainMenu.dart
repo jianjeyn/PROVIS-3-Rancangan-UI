@@ -15,6 +15,7 @@ import 'myresep/EditRecipe.dart';
 import 'trending_resep/TrendingResep.dart';
 import 'reviews/AddReviews.dart';
 import 'reviews/Reviews.dart';
+import 'notification/Notification.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -208,6 +209,18 @@ class MainMenu extends StatelessWidget {
             _navigateTo(context, const DetailMenu());
           } catch (e) {
             _showErrorSnackbar(context, 'Could not navigate to Recipe Details');
+          }
+        },
+      },
+      {
+        'icon': Icons.notifications_none, // Ikon notifikasi kosong
+        'title': 'Notification',
+        'color': Colors.amber, // Warna yang cocok untuk notifikasi
+        'onTap': () {
+          try {
+            _navigateTo(context, const NotificationsScreen()); // Ganti dengan halaman notifikasi kamu
+          } catch (e) {
+            _showErrorSnackbar(context, 'Could not navigate to Notification');
           }
         },
       },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'VerificationCode.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -106,17 +107,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const Spacer(),
               Center(
                 child: ElevatedButton(
-                  onPressed: _isEmailValid
-                      ? () {
+                  onPressed:
+                       () {
                           // Handle password reset logic
-                          print('Sending reset code to: ${_emailController.text}');
+                          // print('Sending reset code to: ${_emailController.text}');
+                          // sementara otomatis langsung ke verification code
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const VerificationCodePage()),
+                          );
                         }
-                      : null,
+                      ,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFB2D8D8),
-                    foregroundColor: const Color(0xFF0E9B8A),
-                    disabledBackgroundColor: const Color(0xFFB2D8D8).withOpacity(0.7),
-                    disabledForegroundColor: const Color(0xFF0E9B8A).withOpacity(0.5),
+                    backgroundColor: const Color(0xFF0E9B8A), // Lebih gelap dari sebelumnya
+                    foregroundColor: Colors.white, // Teks berwarna putih
+                    disabledBackgroundColor: const Color(0xFF0E9B8A).withOpacity(0.7),
+                    disabledForegroundColor: Colors.white.withOpacity(0.5),
                     minimumSize: const Size(300, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
