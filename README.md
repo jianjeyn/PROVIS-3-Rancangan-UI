@@ -4,13 +4,13 @@
 
 ---
 
-## 📚 Latar Belakang
+## Latar Belakang
 
 Dalam era digital saat ini, banyak pengguna mengandalkan aplikasi mobile untuk mendapatkan referensi resep makanan. Aplikasi resep yang baik tidak hanya menyajikan informasi makanan, tetapi juga harus memiliki tampilan yang menarik, navigasi yang mudah, serta fitur interaktif yang menunjang pengalaman pengguna (user experience/UX). Oleh karena itu, proyek ini bertujuan untuk merancang UI aplikasi resep makanan yang dapat memenuhi kebutuhan tersebut, sebagai hasil penerapan teori dan praktik dalam desain visual dan pengembangan perangkat lunak mobile.
 
 ---
 
-## 🎯 Tujuan Proyek
+## Tujuan Proyek
 
 - Mendesain dan mengimplementasikan antarmuka pengguna berbasis Flutter
 - Menyediakan fitur eksplorasi resep, filter, unggah resep, dan ulasan
@@ -19,7 +19,7 @@ Dalam era digital saat ini, banyak pengguna mengandalkan aplikasi mobile untuk m
 
 ---
 
-## 🛠️ Teknologi yang Digunakan
+## Teknologi yang Digunakan
 
 - **Flutter** — Framework UI untuk pengembangan mobile lintas platform
 - **Dart** — Bahasa pemrograman untuk Flutter
@@ -27,7 +27,7 @@ Dalam era digital saat ini, banyak pengguna mengandalkan aplikasi mobile untuk m
 
 ---
 
-## 📱 Fitur Utama
+## Fitur Utama
 
 | Halaman/Fitur              | Deskripsi                                                                 |
 |----------------------------|---------------------------------------------------------------------------|
@@ -43,17 +43,5 @@ Dalam era digital saat ini, banyak pengguna mengandalkan aplikasi mobile untuk m
 | ⭐ **Reviews**             | Melihat ulasan dari pengguna terhadap resep                                |
 | ➕ **AddReviews**          | Menambahkan ulasan untuk resep tertentu                                    |
 | 📄 **DetailMenu**          | Menampilkan detail lengkap sebuah resep makanan                            |
-
----
-
-## 🧭 Alur Navigasi
-
-- Home → **HomePage**
-- Explore/Filter → **Search** → **SortBy** → **TrendingResep**
-- Detail Resep → **DetailMenu** → **Reviews** / **AddReviews**
-- Komunitas → **Community**
-- Profil → **Profile**
-- Unggah Resep → **EditRecipe**
-- Login/Sign Up → **Login**, **Signup**
 
 ---
