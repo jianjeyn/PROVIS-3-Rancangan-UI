@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 // Import all the required pages
 import 'auth/Login.dart';
 import 'auth/Signup.dart';
+import 'auth/CreateProfile.dart';
+import 'auth/CreatePassword.dart';
 import 'home/HomePage.dart';
 import 'community/Community.dart';
 import 'search/Search.dart';
@@ -150,6 +152,30 @@ class MainMenu extends StatelessWidget {
         },
       },
       {
+        'icon': Icons.person_add,  // Ikon untuk membuat profil baru
+        'title': 'Create New Profile',
+        'color': Colors.indigo,
+        'onTap': () {
+          try {
+            _navigateTo(context, const CreateProfile());  // Ganti dengan halaman CreateProfile
+          } catch (e) {
+            _showErrorSnackbar(context, 'Could not navigate to Create New Profile');
+          }
+        },
+      },
+      {
+        'icon': Icons.lock_open,  // Ikon untuk membuat password baru
+        'title': 'Create New Password',
+        'color': Colors.indigo,
+        'onTap': () {
+          try {
+            _navigateTo(context, const CreatePasswordPage());  // Ganti dengan halaman CreatePassword
+          } catch (e) {
+            _showErrorSnackbar(context, 'Could not navigate to Create New Password');
+          }
+        },
+      },
+      {
         'icon': Icons.reviews,
         'title': 'Reviews',
         'color': Colors.amber,
@@ -218,32 +244,32 @@ class MainMenu extends StatelessWidget {
             ),
           ),
           // The +1 additional button at the bottom
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24.0, left: 16.0, right: 16.0),
-            child: SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // You can add a settings page later
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Settings page coming soon'),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.settings),
-                label: const Text('Settings', style: TextStyle(fontSize: 18)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[800],
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 24.0, left: 16.0, right: 16.0),
+          //   child: SizedBox(
+          //     width: double.infinity,
+          //     height: 60,
+          //     child: ElevatedButton.icon(
+          //       onPressed: () {
+          //         // You can add a settings page later
+          //         ScaffoldMessenger.of(context).showSnackBar(
+          //           const SnackBar(
+          //             content: Text('Settings page coming soon'),
+          //           ),
+          //         );
+          //       },
+          //       icon: const Icon(Icons.settings),
+          //       label: const Text('Settings', style: TextStyle(fontSize: 18)),
+          //       style: ElevatedButton.styleFrom(
+          //         backgroundColor: Colors.grey[800],
+          //         foregroundColor: Colors.white,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(12),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
