@@ -111,7 +111,12 @@ class _RecipeHomePageState extends State<RecipeHomePage> {
                     children: [
                       IconButton(
                         icon: const Icon(Icons.arrow_back_ios, size: 20),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const HomePage()),
+                          );
+                        },
                       ),
                       const Expanded(
                         child: Text(
