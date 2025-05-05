@@ -4,6 +4,7 @@ import 'search/Search.dart';
 import 'community/Community.dart';
 import 'profile/Following.dart';
 import 'profile/Followers.dart';
+import 'trending_resep/TrendingResep.dart';
 
 void main() {
   runApp(const MyApp());
@@ -244,14 +245,17 @@ class _HomePageState extends State<HomePage> {
               ),
               TextButton(
                 onPressed: () {
-                  // TODO: Tambahkan navigasi ke halaman semua resep trending
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RecipeHomePage()),
+                  );
                 },
                 child: const Text(
                   'See All',
                   style: TextStyle(
                     color: Colors.teal,
                     fontWeight: FontWeight.w500,
-                  ),
+                  ),  
                 ),
               ),
             ],
