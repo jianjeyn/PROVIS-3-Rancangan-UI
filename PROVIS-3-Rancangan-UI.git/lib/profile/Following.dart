@@ -5,6 +5,7 @@ import '../community/community.dart';
 import '../myresep/EditRecipe.dart';
 import '../search/Search.dart';
 import 'Followers.dart' show FollowersPage;
+import '../home/HomePage.dart';
 
 
 class FollowingPage extends StatefulWidget {

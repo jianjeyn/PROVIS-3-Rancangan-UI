@@ -7,6 +7,7 @@ import '../Main.dart';
 import '../search/DetailMenu.dart';
 import '../community/Community.dart';
 import '../reviews/Reviews.dart';
+import '../home/HomePage.dart';
 
 class DetailMenu extends StatelessWidget {
   const DetailMenu({Key? key}) : super(key: key);

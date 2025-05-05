@@ -8,6 +8,7 @@ import 'Following.dart' show FollowingPage;
 import 'Followers.dart' show FollowersPage;
 import '../profile/EditProfile.dart';
 import '../profile/ShareProfile.dart';
+import '../home/HomePage.dart';
 
 class ProfileRecipePage extends StatefulWidget {
   const ProfileRecipePage({Key? key}) : super(key: key);
@@ -115,7 +116,7 @@ class _ProfileRecipePageState extends State<ProfileRecipePage> with SingleTicker
         // atau diganti dengan kelas yang sesuai di proyek Anda
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const EditRecipePage()),
+          MaterialPageRoute(builder: (_) => const RecipePage()),
         );
         break;
       case 3:

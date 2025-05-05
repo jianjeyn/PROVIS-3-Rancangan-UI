@@ -7,6 +7,7 @@ import '../Main.dart';
 import '../search/DetailMenu.dart';
 import '../community/Community.dart';
 import 'AddReviews.dart';
+import '../home/HomePage.dart';
 
 class Reviews extends StatelessWidget {
   const Reviews({Key? key}) : super(key: key);

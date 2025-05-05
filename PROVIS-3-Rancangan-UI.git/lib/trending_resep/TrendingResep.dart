@@ -8,7 +8,7 @@ import 'TiramisuResep.dart';
 import '../navbar/custom_navbar.dart';
 
 // Import the pages for navigation
-import '../Main.dart'; // Home page
+import '../home/HomePage.dart';
 import '../community/community.dart'; // Community page
 import '../myresep/EditRecipe.dart'; // Add Recipe page
 import '../profile/Profile.dart'; // Profile page

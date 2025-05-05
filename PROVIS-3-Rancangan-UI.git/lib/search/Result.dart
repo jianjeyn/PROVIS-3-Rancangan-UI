@@ -3,6 +3,7 @@ import '../community/Community.dart';
 import '../Main.dart';
 import '../profile/Profile.dart';
 import '../search/DetailMenu.dart';
+import '../home/HomePage.dart';
 
 void main() {
   runApp(const MyApp());

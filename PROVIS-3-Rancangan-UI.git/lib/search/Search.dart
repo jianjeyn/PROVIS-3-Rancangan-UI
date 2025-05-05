@@ -3,6 +3,7 @@ import '../profile/Profile.dart';
 import '../Main.dart';
 import '../community/Community.dart';
 import '../search/SortBy.dart';
+import '../home/HomePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -244,7 +245,7 @@ class _RecipePageState extends State<RecipePage> {
               image: DecorationImage(
                 image: NetworkImage(title == 'Chicken Burger'
                     ? 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1000&auto=format&fit=crop'
-                    : 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=1000&auto=format&fit=crop'),
+                    : 'https://static01.nyt.com/images/2017/04/05/dining/05COOKING-TIRAMISU1/05COOKING-TIRAMISU1-threeByTwoMediumAt2X-v2.jpg?quality=75&auto=webp'),
                 fit: BoxFit.cover,
               ),
             ),

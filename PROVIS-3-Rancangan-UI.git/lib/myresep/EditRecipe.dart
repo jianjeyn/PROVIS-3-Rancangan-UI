@@ -3,6 +3,7 @@ import '../Main.dart';
 import '../navbar/custom_navbar.dart';
 import '../community/community.dart';
 import '../profile/Profile.dart';
+import '../home/HomePage.dart';
 
 // Impor RecipeViewPage
 import 'RecipeView.dart';

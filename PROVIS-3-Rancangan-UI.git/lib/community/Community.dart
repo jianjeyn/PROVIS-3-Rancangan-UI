@@ -5,6 +5,7 @@ import '../profile/Following.dart';
 import '../profile/Followers.dart';
 import '../Main.dart';
 import '../search/DetailMenu.dart';
+import '../home/HomePage.dart';
 
 class Community extends StatelessWidget {
   const Community({Key? key}) : super(key: key);

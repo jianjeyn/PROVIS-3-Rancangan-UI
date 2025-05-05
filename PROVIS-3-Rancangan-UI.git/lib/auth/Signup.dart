@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Community extends StatefulWidget {
-  const Community({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  State<Community> createState() => _CommunityState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _CommunityState extends State<Community> {
+class _SignUpState extends State<SignUp> {
   bool _showPassword = false;
   bool _showConfirmPassword = false;
 
