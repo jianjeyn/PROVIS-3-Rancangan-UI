@@ -111,8 +111,11 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                           color: Colors.teal,
                           ),
                           onPressed: () {
-                          Navigator.pop(context);
-                          },
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (_) => const Community()),
+                              );
+                            },
                         ),
                         const Spacer(),
                         const Text(

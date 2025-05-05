@@ -104,7 +104,10 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  // Handle back button press
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const DetailMenu()),
+                  );
                 },
                 child: const Icon(Icons.arrow_back, color: Color(0xFF008080)),
               ),
@@ -351,7 +354,10 @@ class _ReviewFormPageState extends State<ReviewFormPage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              // Handle cancel
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (_) => const DetailMenu()),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFADE1E5),
