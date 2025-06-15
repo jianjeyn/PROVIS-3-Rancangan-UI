@@ -85,7 +85,8 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = 1; // Set the default selected index to 1 (bubble chat icon)
+    _selectedIndex =
+        1; // Set the default selected index to 1 (bubble chat icon)
     _isFavorited = List<bool>.filled(10, false);
   }
 
@@ -108,20 +109,17 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                       children: [
                         IconButton(
                           icon: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.teal,
+                            Icons.arrow_back,
+                            color: Colors.teal,
                           ),
                           onPressed: () {
-<<<<<<< HEAD
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (_) => const Community()),
-                              );
-                            },
-=======
-                          Navigator.pop(context);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const Community(),
+                              ),
+                            );
                           },
->>>>>>> ce60c33 (Simpan dulu sebelum checkout)
                         ),
                         const Spacer(),
                         const Text(
@@ -221,11 +219,18 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                                 Row(
                                   children: [
                                     IconButton(
-                                      icon: Icon(Icons.star, color: Colors.amber, size: 16),
+                                      icon: Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                        size: 16,
+                                      ),
                                       onPressed: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => const Reviews()),
+                                          MaterialPageRoute(
+                                            builder:
+                                                (context) => const Reviews(),
+                                          ),
                                         );
                                       },
                                     ),
@@ -242,18 +247,28 @@ class _DetailMenuScreenState extends State<DetailMenuScreen> {
                                 Row(
                                   children: [
                                     IconButton(
-                                      icon: Icon(Icons.comment, color: Colors.grey, size: 16),
+                                      icon: Icon(
+                                        Icons.comment,
+                                        color: Colors.grey,
+                                        size: 16,
+                                      ),
                                       onPressed: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => const Reviews()),
+                                          MaterialPageRoute(
+                                            builder:
+                                                (context) => const Reviews(),
+                                          ),
                                         );
                                       },
                                     ),
                                     SizedBox(width: 4),
                                     Text(
                                       '12',
-                                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
                                     ),
                                   ],
                                 ),
